@@ -58,4 +58,20 @@ class LinkeTinder {
                 cep: "6662421", description: "sou uma empresa de aeronautica",
                 competencias: [Competencias.C, Competencias.Typescript, Competencias.Angular])
     }
+
+    String listCandidates(){
+        String messageReturn = ""
+        for(Candidato c : candidatos)
+            messageReturn += c.toString() + "\n"
+
+        return messageReturn
+    }
+
+    String listCompanys(){
+        String messageReturn = ""
+        for(Empresa e : empresas)
+            messageReturn += e.toString() + "\n"
+
+        return messageReturn
+    }
 }
