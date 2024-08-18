@@ -74,4 +74,21 @@ class LinkeTinder {
 
         return messageReturn
     }
+
+    boolean addCandidate(Candidato c){
+        boolean  success = true
+        candidatos.each {it -> if(it.cpf.equalsIgnoreCase(c.cpf)) success = false}
+
+        candidatos.add(c)
+        return success
+    }
+
+    boolean addEmpresa(Empresa e){
+        boolean  success = true
+
+        empresas.each {it -> if(it.CNPJ.equalsIgnoreCase(e.CNPJ)) success = false}
+        empresas.add(e)
+
+        return success
+    }
 }
