@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/node": "^22.5.4",
+    "glslify": "^7.1.1",
+    "live-server": "^1.2.2",
+    "mapbox-gl": "^1.13.3",
+    "plotly.js": "^2.35.0",
+    "systemjs": "^6.15.1"
+  },
+  "devDependencies": {
+    "@types/chart.js": "^2.9.41",
+    "@types/plotly.js": "^2.33.3"
+  }
+}
