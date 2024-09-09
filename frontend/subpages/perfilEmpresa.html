@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil Empresa</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js"></script> -->
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+  </head>
+
+  <body>
+    <header>
+      <h1>Perfil da Empresa</h1>
+    </header>
+    <div id="info">
+      <h2>Informações da Empresa:</h2>
+      <p id="nome">Nome: </p>
+      <p id="pais">Pais: </p>
+      <p id="cnpj">CNPJ: </p>
+      <p id="estado">Estado: </p>
+      <p id="cep">Cep: </p>
+      <p id="email">Email: </p>
+      <p id="competencias">Competências: </p>
+      <p id="descricao">Descrição: </p>
+    </div>
+    <div id="candidatos">
+      <h2>Candidatos Disponíveis</h2>
+      <h3>(Informações extra ocultas até ocorrer um match)</h3>
+      <div id="candidatosDisponiveis"></div>
+    </div>
+    <div id="skillsPlot"></div>
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+  </body>
+  <script type="module" src="../scripts/empresa/perfilEmpresa.js"></script>
+</html>
