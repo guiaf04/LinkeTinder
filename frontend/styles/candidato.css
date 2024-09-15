@@ -1,0 +1,74 @@
+/* CSS atualizado para candidato.html */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e1e1e1;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #1c1c1c;
+    padding: 20px;
+    text-align: center;
+    color: #d62828;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #7209b7;
+}
+
+h2{
+    text-align: center;
+    color: rgb(181, 38, 33);
+}
+
+#cadastro {
+    margin: 50px auto;
+    width: 50%;
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    width: 100%;
+}
+
+fieldset {
+    border: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+input[type="text"], input[type="number"], input[type="email"] {
+    background-color: #404040;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 85%;
+}
+
+input[type="submit"] {
+    grid-column: span 2;  /* O botão ocupará as duas colunas */
+    background-color: #d62828;
+    border: none;
+    color: white;
+    padding: 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 96%;
+}
+
+input[type="submit"]:hover {
+    background-color: #f77f00;
+}
