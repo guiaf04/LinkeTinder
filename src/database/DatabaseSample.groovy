@@ -38,6 +38,6 @@ abstract class DatabaseSample {
     }
 
     abstract listar(String query);
-    abstract atualizar(String query);
-    abstract deletar(String query);
+    abstract atualizar(List<String> fields, List<String> values, int id);
+    abstract deletar(int id);
 }

@@ -1,5 +1,34 @@
 import database.*
 
+static def suboptionOperation(DatabaseSample d, Scanner scanner){
+  println(
+          """
+        Type:
+          a) Create
+          b) Read
+          c) Update
+          d) Delete
+        """)
+
+  String suboption = scanner.next()
+
+  switch (suboption) {
+    case "a":
+      break
+    case "b":
+      d.listar("")
+      break
+    case "c":
+      List<String> fields = List.of("nome", "sobrenome")
+      List<String> values = List.of("fulano", "detal")
+      d.atualizar(fields, values, 1)
+      break
+    case "d":
+      d.deletar(5)
+      break
+  }
+
+}
 static void main(String[] args) {
   LinkeTinder system = new LinkeTinder()
 
@@ -11,8 +40,10 @@ static void main(String[] args) {
   Welcome to Linketinder!
   Type: 
     0 for exit the program
-    1 to show the candidates of the system
-    2 to show company's of the system
+    1 to show candidates operations of the system
+    2 to show company's operations of the system
+    3 to show skill's operations of the system
+    4 to show vacancy's operations of the system
   """
 
   candidateDB candidateDB = new candidateDB()
@@ -28,13 +59,16 @@ static void main(String[] args) {
       case "0" :
         break
       case "1" :
-        candidateDB.listar("")
-        employeeDB.listar("")
-        skillsDB.listar("")
-        vacancyDB.listar("")
+        suboptionOperation(candidateDB, scanner)
         break
       case "2" :
-        println system.listCompanys()
+        suboptionOperation(employeeDB, scanner)
+        break
+      case "3":
+        suboptionOperation(vacancyDB, scanner)
+        break
+      case "4":
+        suboptionOperation(skillsDB, scanner)
         break
       default : println("Incorrect option, try again")
     }

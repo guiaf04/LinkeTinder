@@ -12,12 +12,13 @@ class skillsDB extends DatabaseSample {
     }
 
     @Override
-    def atualizar(String query) {
+    def atualizar(List<String> fields, List<String> values, int id) {
         return null
     }
 
     @Override
-    def deletar(String query) {
+    def deletar(int id) {
         return null
     }
+
 }
