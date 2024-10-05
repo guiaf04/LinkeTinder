@@ -2,11 +2,11 @@ package database
 
 import groovy.sql.Sql
 
-class candidateDB extends DatabaseSample {
+class skillsDB extends DatabaseSample {
     @Override
     def listar(String query) {
         Sql sql = connect()
-        sql.eachRow("SELECT * FROM candidato") { row ->
+        sql.eachRow("SELECT * FROM competencia") { row ->
             println(row.toString())
         }
     }

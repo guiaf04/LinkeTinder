@@ -15,9 +15,10 @@ static void main(String[] args) {
     2 to show company's of the system
   """
 
-//  DatabaseSample db = new DatabaseSample()
   candidateDB candidateDB = new candidateDB()
-//  db.connect()
+  employeeDB employeeDB = new employeeDB()
+  skillsDB skillsDB = new skillsDB()
+  vacancyDB vacancyDB = new vacancyDB()
 
   while(option != "0"){
     println(message)
@@ -27,8 +28,10 @@ static void main(String[] args) {
       case "0" :
         break
       case "1" :
-//        println system.listCandidates()
         candidateDB.listar("")
+        employeeDB.listar("")
+        skillsDB.listar("")
+        vacancyDB.listar("")
         break
       case "2" :
         println system.listCompanys()

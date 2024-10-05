@@ -7,7 +7,8 @@
     </content>
     <orderEntry type="jdk" jdkName="corretto-17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="groovy-4.0.22" level="project" />
-    <orderEntry type="library" name="bluecatcode.junit.4.10.extended" level="project" />
+    <orderEntry type="library" exported="" name="groovy-4.0.22" level="project" />
+    <orderEntry type="library" exported="" name="bluecatcode.junit.4.10.extended" level="project" />
+    <orderEntry type="library" exported="" name="sodeac.dbschema.driver.postgresql" level="project" />
   </component>
 </module>
