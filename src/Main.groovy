@@ -1,3 +1,5 @@
+import database.*
+
 static void main(String[] args) {
   LinkeTinder system = new LinkeTinder()
 
@@ -13,6 +15,10 @@ static void main(String[] args) {
     2 to show company's of the system
   """
 
+//  DatabaseSample db = new DatabaseSample()
+  candidateDB candidateDB = new candidateDB()
+//  db.connect()
+
   while(option != "0"){
     println(message)
     option = scanner.next()
@@ -21,7 +27,8 @@ static void main(String[] args) {
       case "0" :
         break
       case "1" :
-        println system.listCandidates()
+//        println system.listCandidates()
+        candidateDB.listar("")
         break
       case "2" :
         println system.listCompanys()
