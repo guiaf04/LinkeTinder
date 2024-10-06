@@ -1,3 +1,5 @@
+package org.example
+
 import database.*
 
 static def suboptionOperation(DatabaseSample d, Scanner scanner){

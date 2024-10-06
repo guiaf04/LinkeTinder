@@ -1,29 +1,23 @@
-### IntelliJ IDEA ###
+# .gitignore created from Groovy contributors in https://github.com/apache/groovy/blob/master/.gitignore
+
+user.gradle
+.gradle/
+target/
+build/
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+
+*.DS_Store
+*.class
+*.swp
+*~
+
 .idea
-### Eclipse ###
-.apt_generated
+*.iml
+*.ipr
+*.iws
+.shelf
+
+.settings/
 .classpath
-.factorypath
 .project
-.settings
-.springBeans
-.sts4-cache
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
