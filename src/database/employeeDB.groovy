@@ -4,6 +4,28 @@ import groovy.sql.Sql
 
 class employeeDB extends DatabaseSample {
     @Override
+    def criar(List<String> values) {
+        assert values.size() != 0
+
+        Sql conn = connect()
+
+        String query = "INSERT INTO empresa " +
+                "(nome, email, cnpj, pais, cep, descricao, senha) " +
+                "VALUES ("
+
+        for(int i =0; i<values.size(); i++){
+            query += (i == 0 ? "" : ", ")
+            query += "'${values[i]}'"
+        }
+
+        query += ")"
+
+        conn.executeInsert(query)
+
+        desconectar(conn)
+    }
+
+    @Override
     def listar(String query) {
         Sql sql = connect()
         sql.eachRow("SELECT * FROM empresa") { row ->

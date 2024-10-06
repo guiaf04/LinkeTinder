@@ -5,7 +5,7 @@ import groovy.sql.Sql
 import java.sql.SQLException
 
 abstract class DatabaseSample {
-    Sql connect(){
+    static Sql connect(){
         Map dbParamns = [url:"jdbc:postgresql://localhost:5432/linketinder"
                          ,user:"postgres"
                          ,password:"postgres"
@@ -27,7 +27,7 @@ abstract class DatabaseSample {
         }
     }
 
-    void desconectar(Sql conn){
+    static void desconectar(Sql conn){
         if (conn != null){
             try {
                 conn.close()
@@ -37,6 +37,7 @@ abstract class DatabaseSample {
         }
     }
 
+    abstract criar(List<String> values);
     abstract listar(String query);
     abstract atualizar(List<String> fields, List<String> values, int id);
     abstract deletar(int id);

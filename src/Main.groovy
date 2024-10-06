@@ -14,6 +14,10 @@ static def suboptionOperation(DatabaseSample d, Scanner scanner){
 
   switch (suboption) {
     case "a":
+      List<String> values = List.of('Joaozinho', 'Silva', '1985-01-15',
+              'jo.ao@zinho.com', '12345678901', 'Brasil', '12345-678',
+              'Desenvolvedor com 25 anos de experiência', 'senha123')
+      d.criar(values)
       break
     case "b":
       d.listar("")
@@ -30,7 +34,7 @@ static def suboptionOperation(DatabaseSample d, Scanner scanner){
 
 }
 static void main(String[] args) {
-  LinkeTinder system = new LinkeTinder()
+//  LinkeTinder system = new LinkeTinder()
 
   Scanner scanner = new Scanner(System.in)
 
