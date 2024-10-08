@@ -2,45 +2,26 @@ package database
 
 import groovy.sql.Sql
 
-class skillsDB extends DatabaseSample {
-    @Override
+class skillsDB extends PostgresJDBCSample {
+
     def criar(List<String> values) {
-        assert values.size() != 0
+        List<String> fields =
+                List.of("nome")
 
-        Sql conn = connect()
+        super.criar(fields, values, "competencia")
 
-        String query = "INSERT INTO competencia " +
-                "(nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) " +
-                "VALUES ("
-
-        for(int i =0; i<values.size(); i++){
-            query += (i == 0 ? "" : ", ")
-            query += "'${values[i]}'"
-        }
-
-        query += ")"
-
-        conn.executeInsert(query)
-
-        desconectar(conn)
     }
 
-    @Override
-    def listar(String query) {
-        Sql sql = connect()
-        sql.eachRow("SELECT * FROM competencia") { row ->
-            println(row.toString())
-        }
+    def listar() {
+        super.listar("competencia")
     }
 
-    @Override
     def atualizar(List<String> fields, List<String> values, int id) {
-        return null
+        super.atualizar(fields, values, id, "competencia")
     }
 
-    @Override
     def deletar(int id) {
-        return null
+        super.deletar(id, "competencia")
     }
 
 }

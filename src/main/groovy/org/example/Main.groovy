@@ -2,7 +2,7 @@ package org.example
 
 import database.*
 
-static def suboptionOperation(DatabaseSample d, Scanner scanner){
+static def suboptionOperation(PostgresJDBCSample d, Scanner scanner){
   println(
           """
         Type:
@@ -16,18 +16,19 @@ static def suboptionOperation(DatabaseSample d, Scanner scanner){
 
   switch (suboption) {
     case "a":
-      List<String> values = List.of('Joaozinho', 'Silva', '1985-01-15',
-              'jo.ao@zinho.com', '12345678901', 'Brasil', '12345-678',
-              'Desenvolvedor com 25 anos de experiência', 'senha123')
+      List<String> values = List.of('Pedro', 'Pasquim', '1990-10-05',
+              'pe@coal.com', '12555678901', 'Brasil', '12225-678',
+              'Desenvolvedor com 20 anos de experiência', 'senha123')
       d.criar(values)
       break
     case "b":
-      d.listar("")
+      d.listar()
       break
     case "c":
       List<String> fields = List.of("nome", "sobrenome")
       List<String> values = List.of("fulano", "detal")
-      d.atualizar(fields, values, 1)
+
+      d.atualizar(fields, values, 6)
       break
     case "d":
       d.deletar(5)

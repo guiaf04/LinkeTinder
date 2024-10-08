@@ -2,66 +2,25 @@ package database
 
 import groovy.sql.Sql
 
-class candidateDB extends DatabaseSample {
-    @Override
+class candidateDB extends PostgresJDBCSample {
     def criar(List<String> values) {
-        assert values.size() != 0
+        List<String> fields =
+                List.of("nome", "sobrenome", "data_nascimento",
+                "email", "cpf", "pais", "cep",
+                "descricao_pessoal", "senha")
 
-        Sql conn = connect()
-
-        String query = "INSERT INTO candidato " +
-                "(nome, sobrenome, data_nascimento, email, cpf, pais, cep, descricao_pessoal, senha) " +
-                "VALUES ("
-
-        for(int i =0; i<values.size(); i++){
-            query += (i == 0 ? "" : ", ")
-            query += "'${values[i]}'"
-        }
-
-        query += ")"
-
-        conn.executeInsert(query)
-
-        desconectar(conn)
+        super.criar(fields, values, "candidato")
     }
 
-    @Override
-    def listar(String query) {
-        Sql sql = connect()
-        sql.eachRow("SELECT * FROM candidato") { row ->
-            println(row.toString())
-        }
+    def listar() {
+        super.listar("candidato")
     }
 
-    @Override
-    def atualizar(List<String> fields, List<String> values, int id) {
-        Sql conn = connect()
-        assert fields.size() == values.size()
-
-        String query = "UPDATE candidato SET "
-
-        for(int i =0; i<fields.size(); i++){
-            query += (i == 0 ? "" : ", ")
-            query += "${fields[i]}='${values[i]}'"
-        }
-
-        query += " WHERE id=${id}"
-
-        conn.executeUpdate query
-
-        desconectar(conn)
+    static def atualizar(List<String> fields, List<String> values, int id) {
+        atualizar(fields, values, id, "candidato")
     }
 
-    @Override
     def deletar(int id) {
-        Sql conn = connect()
-
-        String query = "DELETE FROM candidato WHERE id=${id}"
-
-        conn.execute(query)
-
-        println "Candidate with id = ${id} was deleted!"
-
-        desconectar(conn)
+        super.deletar(id, "candidato")
     }
 }
