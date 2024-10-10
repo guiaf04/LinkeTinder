@@ -1,26 +1,30 @@
 package database
 
-import groovy.sql.Sql
+import database.interfaces.PostgresCRUDTables
+import database.sample.PostgresCRUDSample
+import database.sample.PostgresJDBCSample
 
-class candidateDB extends PostgresJDBCSample {
+class candidateDB implements PostgresCRUDTables{
+    PostgresCRUDSample jdbcCRUDSample = new PostgresCRUDSample(new PostgresJDBCSample())
+
     def criar(List<String> values) {
         List<String> fields =
                 List.of("nome", "sobrenome", "data_nascimento",
                 "email", "cpf", "pais", "cep",
                 "descricao_pessoal", "senha")
 
-        super.criar(fields, values, "candidato")
+        jdbcCRUDSample.create(fields, values, "candidato")
     }
 
     def listar() {
-        super.listar("candidato")
+        jdbcCRUDSample.read("candidato")
     }
 
-    static def atualizar(List<String> fields, List<String> values, int id) {
-        atualizar(fields, values, id, "candidato")
+    def atualizar(List<String> fields, List<String> values, int id) {
+        jdbcCRUDSample.update(fields, values, id, "candidato")
     }
 
     def deletar(int id) {
-        super.deletar(id, "candidato")
+        jdbcCRUDSample.delete(id, "candidato")
     }
 }

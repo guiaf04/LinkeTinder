@@ -1,8 +1,9 @@
 package org.example
 
 import database.*
+import database.interfaces.PostgresCRUDTables
 
-static def suboptionOperation(PostgresJDBCSample d, Scanner scanner){
+static def suboptionOperation(PostgresCRUDTables d, Scanner scanner){
   println(
           """
         Type:
