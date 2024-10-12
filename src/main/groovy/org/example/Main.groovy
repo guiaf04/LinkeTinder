@@ -1,6 +1,7 @@
 package org.example
 
-import database.*
+import database.enums.JDBCTables
+import database.factorys.PostgresTableFactory
 import database.interfaces.PostgresCRUDTables
 
 static def suboptionOperation(PostgresCRUDTables d, Scanner scanner){
@@ -34,6 +35,9 @@ static def suboptionOperation(PostgresCRUDTables d, Scanner scanner){
     case "d":
       d.deletar(5)
       break
+    default:
+          println("Opção inválida")
+          break
   }
 
 }
@@ -54,10 +58,7 @@ static void main(String[] args) {
     4 to show vacancy's operations of the system
   """
 
-  candidateDB candidateDB = new candidateDB()
-  employeeDB employeeDB = new employeeDB()
-  skillsDB skillsDB = new skillsDB()
-  vacancyDB vacancyDB = new vacancyDB()
+  PostgresTableFactory tableFactory = new PostgresTableFactory()
 
   while(option != "0"){
     println(message)
@@ -67,16 +68,16 @@ static void main(String[] args) {
       case "0" :
         break
       case "1" :
-        suboptionOperation(candidateDB, scanner)
+        suboptionOperation(tableFactory.getTable(JDBCTables.Candidate), scanner)
         break
       case "2" :
-        suboptionOperation(employeeDB, scanner)
+        suboptionOperation(tableFactory.getTable(JDBCTables.Employee), scanner)
         break
       case "3":
-        suboptionOperation(vacancyDB, scanner)
+        suboptionOperation(tableFactory.getTable(JDBCTables.Vacancy), scanner)
         break
       case "4":
-        suboptionOperation(skillsDB, scanner)
+        suboptionOperation(tableFactory.getTable(JDBCTables.Skills), scanner)
         break
       default : println("Incorrect option, try again")
     }

@@ -1,11 +1,14 @@
 package database.sample
 
+import database.factorys.JDBCDatabaseFactory
+import database.enums.JDBCDatabases
 import database.interfaces.IJdbcCRUDSample
 import database.interfaces.JDBCInterface
 import groovy.sql.Sql
 
 class PostgresCRUDSample implements IJdbcCRUDSample {
-    JDBCInterface jdbcInterface
+    JDBCDatabaseFactory databaseFactory = new JDBCDatabaseFactory()
+    JDBCInterface jdbcInterface = databaseFactory.getDatabase(JDBCDatabases.PostgreSQL)
 
     PostgresCRUDSample(JDBCInterface jdbcInterface){
         this.jdbcInterface = jdbcInterface
