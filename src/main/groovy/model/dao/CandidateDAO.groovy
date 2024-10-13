@@ -1,19 +1,21 @@
-package database
+package model.dao
 
-import database.interfaces.PostgresCRUDTables
-import database.sample.PostgresCRUDSample
-import database.sample.PostgresJDBCSample
+import model.dao.interfaces.ISampleDAO
+import model.dao.sample.PostgreSampleDAO
+import model.dao.sample.PostgresJDBCSample
 
-class candidateDB implements PostgresCRUDTables{
-    PostgresCRUDSample jdbcCRUDSample = new PostgresCRUDSample(new PostgresJDBCSample())
+class CandidateDAO implements ISampleDAO{
+    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()
 
-    def criar(List<String> values) {
+    boolean addCandidate(List<String> values) {
         List<String> fields =
                 List.of("nome", "sobrenome", "data_nascimento",
                 "email", "cpf", "pais", "cep",
                 "descricao_pessoal", "senha")
 
-        jdbcCRUDSample.create(fields, values, "candidato")
+        boolean success = jdbcCRUDSample.create(fields, values, "candidato")
+
+        return success
     }
 
     def listar() {

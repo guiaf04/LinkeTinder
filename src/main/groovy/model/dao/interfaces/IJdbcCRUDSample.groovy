@@ -1,7 +1,7 @@
-package database.interfaces
+package model.dao.interfaces
 
 interface IJdbcCRUDSample {
-    void create(List<String> fields, List<String> values, String database);
+    boolean create(List<String> fields, List<String> values, String database);
 
     void read(String database);
 

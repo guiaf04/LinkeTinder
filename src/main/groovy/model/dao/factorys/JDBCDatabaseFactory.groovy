@@ -1,8 +1,8 @@
-package database.factorys
+package model.dao.factorys
 
-import database.enums.JDBCDatabases
-import database.interfaces.JDBCInterface
-import database.sample.PostgresJDBCSample
+import model.dao.enums.JDBCDatabases
+import model.dao.interfaces.JDBCInterface
+import model.dao.sample.PostgresJDBCSample
 
 class JDBCDatabaseFactory {
     static JDBCInterface getDatabase(JDBCDatabases database){

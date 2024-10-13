@@ -1,9 +1,11 @@
+package model
+
 class Candidato extends Pessoa {
     String cpf, idade
 
     @Override
     String toString() {
-        return "Candidato{" +
+        return "model.Candidato{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", state=" + state +
@@ -11,7 +13,7 @@ class Candidato extends Pessoa {
                 ", description='" + description + '\'' +
                 ", cpf='" + cpf + '\'' +
                 ", idade='" + idade + '\'' +
-                ", competencias=" + competencias +
+//                ", competencias=" + competencias +
                 '}'
     }
 }

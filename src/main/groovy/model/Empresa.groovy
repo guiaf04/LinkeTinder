@@ -1,9 +1,11 @@
+package model
+
 class Empresa extends Pessoa{
     String CNPJ, pais
 
     @Override
     String toString() {
-        return "Empresa{" +
+        return "model.Empresa{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", state=" + state +

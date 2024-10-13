@@ -1,11 +1,11 @@
-package database
+package model.dao
 
-import database.interfaces.PostgresCRUDTables
-import database.sample.PostgresCRUDSample
-import database.sample.PostgresJDBCSample
 
-class employeeDB implements PostgresCRUDTables {
-    PostgresCRUDSample jdbcCRUDSample = new PostgresCRUDSample(new PostgresJDBCSample())
+import model.dao.sample.PostgreSampleDAO
+import model.dao.sample.PostgresJDBCSample
+
+class EmployeeDAO {
+    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO(new PostgresJDBCSample())
 
     def criar(List<String> values) {
         List<String> fields =

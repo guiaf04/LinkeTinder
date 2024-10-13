@@ -1,11 +1,8 @@
-package database.interfaces
+package model.dao.interfaces
 
-interface PostgresCRUDTables {
-    def criar(List<String> values)
-
+interface ISampleDAO {
+    boolean addCandidate(List<String> values)
     def listar()
-
     def atualizar(List<String> fields, List<String> values, int id)
-
     def deletar(int id)
 }

@@ -1,70 +1,33 @@
+import controller.CandidateController
+import model.Candidato
+import model.dao.interfaces.ISampleDAO
 import org.junit.jupiter.api.Test
+import service.CandidateService
 
 import static org.junit.Assert.*
+import static org.mockito.Mockito.*
 
 class CandidatoTest {
-    Candidato candidato = new Candidato()
-
+    ISampleDAO candidatoDAO = mock(ISampleDAO.class)
+//    CandidateController candidateController = new CandidateController(candidateService: new CandidateService(candidateDAO: candidatoDAO))
+    CandidateService candidateService = new CandidateService(candidateDAO: candidatoDAO)
     @Test
-    void testeAdicionarName() {
-        String name = "Fulano"
+    void createCandidateTest() {
+        Candidato candidato = new Candidato()
+        candidato.setName('teste')
+        candidato.setIdade('teste')
+        candidato.setState('teste')
+        candidato.setEmail('teste')
+        candidato.setCep('teste')
+        candidato.setDescription('teste')
+        candidato.setCpf('teste')
 
-        candidato.name = name
+        List<String> teste = candidato.getProperties().findAll {!it.key.toString().equalsIgnoreCase("class")}.values() as List<String>
+        when(candidatoDAO.addCandidate(teste)).thenReturn(true)
 
-        assertEquals(name, candidato.name)
+        boolean success = candidateService.addCandidate(candidato)
+
+        assertTrue(success)
     }
 
-    @Test
-    void testeAdicionarCPF() {
-        String cpf = "40028922"
-
-        candidato.cpf = cpf
-
-        assertEquals(cpf, candidato.cpf)
-    }
-
-    @Test
-    void testeAdicionarIdade() {
-        String idade = "20"
-
-        candidato.idade = idade
-
-        assertEquals(idade, candidato.idade)
-    }
-
-    @Test
-    void testeAdicionarEmail() {
-        String email = "Fulano"
-
-        candidato.email = email
-
-        assertEquals(email, candidato.email)
-    }
-
-    @Test
-    void testeAdicionarState() {
-        String state = "Fulano"
-
-        candidato.state = state
-
-        assertEquals(state, candidato.state)
-    }
-
-    @Test
-    void testeAdicionarCEP() {
-        String cep = "Fulano"
-
-        candidato.cep = cep
-
-        assertEquals(cep, candidato.cep)
-    }
-
-    @Test
-    void testeAdicionarDescription() {
-        String description = "Fulano"
-
-        candidato.description = description
-
-        assertEquals(description, candidato.description)
-    }
 }

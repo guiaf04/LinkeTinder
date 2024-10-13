@@ -1,4 +1,7 @@
 import groovy.transform.ToString
+import model.Candidato
+import model.Competencias
+import model.Empresa
 
 @ToString
 class LinkeTinder {

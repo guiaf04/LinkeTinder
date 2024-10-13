@@ -1,7 +1,8 @@
-package database.sample
+package model.dao.sample
 
-import database.interfaces.JDBCInterface
+
 import groovy.sql.Sql
+import model.dao.interfaces.JDBCInterface
 
 import java.sql.SQLException
 

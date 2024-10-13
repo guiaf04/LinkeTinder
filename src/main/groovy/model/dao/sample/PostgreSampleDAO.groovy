@@ -1,20 +1,18 @@
-package database.sample
+package model.dao.sample
 
-import database.factorys.JDBCDatabaseFactory
-import database.enums.JDBCDatabases
-import database.interfaces.IJdbcCRUDSample
-import database.interfaces.JDBCInterface
+import model.dao.enums.JDBCDatabases
+import model.dao.factorys.JDBCDatabaseFactory
 import groovy.sql.Sql
+import model.dao.interfaces.IJdbcCRUDSample
+import model.dao.interfaces.JDBCInterface
 
-class PostgresCRUDSample implements IJdbcCRUDSample {
+import java.sql.SQLException
+
+class PostgreSampleDAO implements IJdbcCRUDSample {
     JDBCDatabaseFactory databaseFactory = new JDBCDatabaseFactory()
     JDBCInterface jdbcInterface = databaseFactory.getDatabase(JDBCDatabases.PostgreSQL)
 
-    PostgresCRUDSample(JDBCInterface jdbcInterface){
-        this.jdbcInterface = jdbcInterface
-    }
-
-     void create(List<String> fields, List<String> values, String database) {
+     boolean create(List<String> fields, List<String> values, String database) {
         assert values.size() != 0
 
         Sql conn = jdbcInterface.connect()
@@ -24,9 +22,18 @@ class PostgresCRUDSample implements IJdbcCRUDSample {
                 "VALUES (${values.collect { "'${it}'" }.join(", ")})"
 
         println query
-        conn.executeInsert(query)
+
+        try {
+            conn.executeInsert(query)
+        }catch (SQLException e){
+            println(e.stackTrace)
+            println("Não foi possível executar a query, verifique os parâmetros")
+            return false
+        }
 
          jdbcInterface.disconnect(conn)
+
+         return true
     }
 
     void read(String database) {
