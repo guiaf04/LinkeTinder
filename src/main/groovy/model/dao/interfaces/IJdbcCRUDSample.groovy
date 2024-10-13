@@ -3,9 +3,11 @@ package model.dao.interfaces
 interface IJdbcCRUDSample {
     boolean create(List<String> fields, List<String> values, String database);
 
-    void read(String database);
+    List<String> read(String database)
 
-    void update(List<String> fields, List<String> values, int id, String database);
+    List<String> readGeneric(String database, String field, String value)
 
-    void delete(int id, String database);
+    boolean update(List<String> fields, List<String> values, int id, String database);
+
+    boolean delete(int id, String database);
 }

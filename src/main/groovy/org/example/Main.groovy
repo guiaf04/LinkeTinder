@@ -61,13 +61,15 @@ static void main(String[] args) {
 
   CandidateController candidateController = new CandidateController(candidateService: new CandidateService())
   Candidato candidato = new Candidato()
-  candidato.setName('teste')
-  candidato.setIdade('teste')
-  candidato.setState('teste')
-  candidato.setEmail('teste')
-  candidato.setCep('teste')
-  candidato.setDescription('teste')
+  candidato.setNome('Testinho')
+  candidato.setSobrenome('Da Silva')
+  candidato.setDatanascimento('2010-10-10')
+  candidato.setEmail('teste@123.com')
   candidato.setCpf('teste')
+  candidato.setPais('Terra dos Testes')
+  candidato.setCep('11111-111')
+  candidato.setDescricaopessoal('sou um teste')
+  candidato.setSenha('teste123')
 
   while(option != "0"){
     println(message)
@@ -83,8 +85,10 @@ static void main(String[] args) {
         candidateController.addCandidate(candidato)
         break
       case "3":
+        candidateController.editCandidate(candidato)
         break
       case "4":
+        candidateController.deleteCandidate(candidato)
         break
       default : println("Incorrect option, try again")
     }

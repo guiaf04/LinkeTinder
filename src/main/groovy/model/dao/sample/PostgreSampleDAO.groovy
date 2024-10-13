@@ -1,8 +1,8 @@
 package model.dao.sample
 
+import groovy.sql.Sql
 import model.dao.enums.JDBCDatabases
 import model.dao.factorys.JDBCDatabaseFactory
-import groovy.sql.Sql
 import model.dao.interfaces.IJdbcCRUDSample
 import model.dao.interfaces.JDBCInterface
 
@@ -12,7 +12,7 @@ class PostgreSampleDAO implements IJdbcCRUDSample {
     JDBCDatabaseFactory databaseFactory = new JDBCDatabaseFactory()
     JDBCInterface jdbcInterface = databaseFactory.getDatabase(JDBCDatabases.PostgreSQL)
 
-     boolean create(List<String> fields, List<String> values, String database) {
+    boolean create(List<String> fields, List<String> values, String database) {
         assert values.size() != 0
 
         Sql conn = jdbcInterface.connect()
@@ -25,28 +25,55 @@ class PostgreSampleDAO implements IJdbcCRUDSample {
 
         try {
             conn.executeInsert(query)
-        }catch (SQLException e){
+        } catch (SQLException e) {
             println(e.stackTrace)
             println("Não foi possível executar a query, verifique os parâmetros")
             return false
         }
 
-         jdbcInterface.disconnect(conn)
+        jdbcInterface.disconnect(conn)
 
-         return true
+        return true
     }
 
-    void read(String database) {
+    List<String> read(String database) {
         Sql conn = jdbcInterface.connect()
+        List<String> result = new ArrayList<>()
 
-        conn.eachRow("SELECT * FROM " + database.toLowerCase()) { row ->
-            println(row.toString())
+        try {
+            conn.eachRow("SELECT * FROM " + database.toLowerCase()) { row ->
+//                println(row.toString())
+                result.add(row.toString())
+            }
+        } catch (SQLException e) {
+            println(e.stackTrace)
+            println "Não foi possível executar a query, verifique se os valores passados foram corretos"
+            return null
         }
 
         jdbcInterface.disconnect(conn)
+
+        return result
     }
 
-    void update(List<String> fields, List<String> values, int id, String database) {
+    List<String> readGeneric(String database, String field, String value) {
+        Sql conn = jdbcInterface.connect()
+
+        String query = "SELECT * FROM " +
+                "${database.toLowerCase()} " +
+                "WHERE ${field}='${value}'"
+
+        List<String> result = new ArrayList<>()
+
+        conn.eachRow(query) { row ->
+            result.add(row.toString())
+        }
+
+        return result
+    }
+
+    boolean update(List<String> fields, List<String> values, int id, String database) {
+        println("SampleDAO: " +values)
         assert fields.size() == values.size()
 
         Sql conn = jdbcInterface.connect()
@@ -54,22 +81,34 @@ class PostgreSampleDAO implements IJdbcCRUDSample {
         def setClause = fields.collect { field -> "${field} = '${values.get(idx++)}'" }.join(", ")
 
         String query = "UPDATE ${database.toLowerCase()} SET ${setClause} WHERE id=${id}"
-        println query
-
-        conn.executeUpdate query
+        try {
+            println query
+            conn.executeUpdate query
+        } catch (SQLException e) {
+            e.printStackTrace()
+            println "Não foi possível executar a query, verifique se os valores passados foram corretos"
+            return false
+        }
 
         jdbcInterface.disconnect(conn)
+        return true
     }
 
-    void delete(int id, String database) {
+    boolean delete(int id, String database) {
         Sql conn = jdbcInterface.connect()
 
         String query = "DELETE FROM ${database.toLowerCase()} WHERE id=${id}"
 
-        conn.execute(query)
-
+        try {
+            conn.execute(query)
+        } catch (SQLException e) {
+            e.printStackTrace()
+            println "Não foi possível executar a query, verifique se os valores passados foram corretos"
+            return false
+        }
         println "${database} with id = ${id} was deleted!"
 
         jdbcInterface.disconnect(conn)
+        return true
     }
 }

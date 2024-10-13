@@ -1,19 +1,21 @@
 package model
 
-class Candidato extends Pessoa {
-    String cpf, idade
+class Candidato{
+    String nome, sobrenome, datanascimento, email, cpf, pais, cep, descricaopessoal, senha
+
 
     @Override
     String toString() {
-        return "model.Candidato{" +
-                "name='" + name + '\'' +
+        return "Candidato{" +
+                "nome='" + nome + '\'' +
+                ", sobrenome='" + sobrenome + '\'' +
+                ", dataNascimento='" + datanascimento + '\'' +
                 ", email='" + email + '\'' +
-                ", state=" + state +
-                ", cep='" + cep + '\'' +
-                ", description='" + description + '\'' +
                 ", cpf='" + cpf + '\'' +
-                ", idade='" + idade + '\'' +
-//                ", competencias=" + competencias +
+                ", pais='" + pais + '\'' +
+                ", cep='" + cep + '\'' +
+                ", descricaoPessoal='" + descricaopessoal + '\'' +
+                ", senha='" + senha + '\'' +
                 '}'
     }
 }
