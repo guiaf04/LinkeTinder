@@ -1,8 +1,11 @@
 package org.example
 
 import controller.CandidateController
+import controller.EmployeeController
 import model.Candidato
+import model.Empresa
 import service.CandidateService
+import service.EmployeeService
 
 
 //static def suboptionOperation(PostgresCRUDTables d, Scanner scanner){
@@ -71,6 +74,16 @@ static void main(String[] args) {
   candidato.setDescricaopessoal('sou um teste')
   candidato.setSenha('teste123')
 
+  EmployeeController employeeController = new EmployeeController(employeeService: new EmployeeService())
+  Empresa empresa = new Empresa()
+  empresa.setNome('Testes dos Bons')
+  empresa.setEmail('teste@empresa.com')
+  empresa.setCnpj("11111121212")
+  empresa.setPais('Terra dos Testes')
+  empresa.setCep('11111-111')
+  empresa.setDescricao("Sou uma empresa teste")
+  empresa.setSenha('teste123')
+
   while(option != "0"){
     println(message)
     option = scanner.next()
@@ -89,6 +102,19 @@ static void main(String[] args) {
         break
       case "4":
         candidateController.deleteCandidate(candidato)
+        break
+
+      case "5":
+        employeeController.showEmployees()
+        break
+      case "6":
+        employeeController.addEmployee(empresa)
+        break
+      case "7":
+        employeeController.editEmployee(empresa)
+        break
+      case "8":
+        employeeController.deleteEmployee(empresa)
         break
       default : println("Incorrect option, try again")
     }

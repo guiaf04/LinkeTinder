@@ -1,19 +1,9 @@
 package model
 
-class Empresa extends Pessoa{
-    String CNPJ, pais
+import groovy.transform.ToString
 
-    @Override
-    String toString() {
-        return "model.Empresa{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", state=" + state +
-                ", cep='" + cep + '\'' +
-                ", description='" + description + '\'' +
-                ", CNPJ='" + CNPJ + '\'' +
-                ", pais='" + pais + '\'' +
-                ", competencias="    + competencias +
-                '}'
-    }
+@ToString
+class Empresa{
+    String nome, email, cnpj, pais, cep, descricao, senha
+
 }

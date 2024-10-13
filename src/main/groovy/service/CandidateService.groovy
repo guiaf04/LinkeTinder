@@ -19,14 +19,13 @@ class CandidateService {
             return false
         }
 
-        return candidateDAO.addCandidate(candidato)
+        return candidateDAO.criar(candidato)
     }
 
     List<String> listCandidates(){
         return candidateDAO.listar()
     }
 
-    @SuppressWarnings('GroovyMissingReturnStatement')
     boolean editCandidate(Candidato candidato){
         String olderCandidate = candidateDAO.getElementByCPF(candidato.getCpf())
 
