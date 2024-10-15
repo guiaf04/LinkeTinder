@@ -1,25 +1,26 @@
 package model.dao
 
-
+import model.Competencia
+import model.Vaga
+import model.dao.interfaces.ISampleDAO
 import model.dao.sample.PostgreSampleDAO
 import model.dao.sample.PostgresJDBCSample
 
-class SkillsDAO{
-    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO(new PostgresJDBCSample())
+class SkillsDAO implements ISampleDAO<Competencia>{
+    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()
 
-    def criar(List<String> values) {
+    boolean criar(Vaga vaga) {
         List<String> fields =
                 List.of("nome")
 
-        jdbcCRUDSample.create(fields, values, "competencia")
-
+       return jdbcCRUDSample.create(fields, values, "competencia")
     }
 
-    def listar() {
-        jdbcCRUDSample.read("competencia")
+    boolean listar() {
+       return jdbcCRUDSample.read("competencia")
     }
 
-    def atualizar(List<String> fields, List<String> values, int id) {
+    boolean atualizar(List<String> fields, List<String> values, int id) {
         jdbcCRUDSample.update(fields, values, id, "competencia")
     }
 
