@@ -1,6 +1,6 @@
 package model
 
-enum Competencias {
+enum Competencia {
     Python, Java, SpringFramework, Angular,
     Javascript, Groovy, Gradle, C, Typescript
 }

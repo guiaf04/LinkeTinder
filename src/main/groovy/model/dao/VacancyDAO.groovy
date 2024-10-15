@@ -1,27 +1,52 @@
 package model.dao
 
+import model.Vaga
+import model.dao.interfaces.ISampleDAO
 import model.dao.sample.PostgreSampleDAO
-import model.dao.sample.PostgresJDBCSample
 
-class VacancyDAO {
-    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO(new PostgresJDBCSample())
+class VacancyDAO implements ISampleDAO<Vaga>{
+    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()
 
-    def criar(List<String> values) {
+    boolean criar(Vaga vaga) {
         List<String> fields =
                 List.of("nome", "descricao", "local", "id_empresa")
 
-        jdbcCRUDSample.create(fields, values, "vaga")
+        List<String> values = vaga.getProperties().findAll {!it.key.toString().equalsIgnoreCase("class")}.values() as List<String>
+
+
+        return jdbcCRUDSample.create(fields, values, "vaga")
     }
 
-    def listar() {
-        jdbcCRUDSample.read("vaga")
+    String getElementByIdEmpresaAndName(String name, String id_empresa) {
+        assert name != null
+        assert id_empresa != null
+
+        List<String> values = new ArrayList<>()
+        values.add(name)
+        values.add(id_empresa)
+
+        List<String> fields = new ArrayList<>()
+        fields.add("nome")
+        fields.add("id_empresa")
+
+        List<String> result = jdbcCRUDSample.readGeneric("vaga", fields, values)
+
+        if(result.size() == 0){
+            return null
+        }
+
+        return result.first
     }
 
-    def atualizar(List<String> fields, List<String> values, int id) {
-        jdbcCRUDSample.update(fields, values, id, "vaga")
+    List<String> listar() {
+        return jdbcCRUDSample.read("vaga")
     }
 
-    def deletar(int id) {
-        jdbcCRUDSample.delete(id, "vaga")
+    boolean atualizar(List<String> fields, List<String> values, int id) {
+        return jdbcCRUDSample.update(fields, values, id, "vaga")
+    }
+
+    boolean deletar(int id) {
+        return jdbcCRUDSample.delete(id, "vaga")
     }
 }

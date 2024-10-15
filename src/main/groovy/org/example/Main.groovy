@@ -2,10 +2,13 @@ package org.example
 
 import controller.CandidateController
 import controller.EmployeeController
+import controller.VacancyController
 import model.Candidato
 import model.Empresa
+import model.Vaga
 import service.CandidateService
 import service.EmployeeService
+import service.VacancyService
 
 
 //static def suboptionOperation(PostgresCRUDTables d, Scanner scanner){
@@ -56,10 +59,10 @@ static void main(String[] args) {
   Welcome to Linketinder!
   Type: 
     0 for exit the program
-    1 to show candidates operations of the system
-    2 to show company's operations of the system
-    3 to show skill's operations of the system
-    4 to show vacancy's operations of the system
+    1-4 to show candidates operations of the system
+    5-8 to show company's operations of the system
+    9-12 to show vacancy's operations of the system
+    13-16 to show skill's operations of the system
   """
 
   CandidateController candidateController = new CandidateController(candidateService: new CandidateService())
@@ -83,6 +86,13 @@ static void main(String[] args) {
   empresa.setCep('11111-111')
   empresa.setDescricao("Sou uma empresa teste")
   empresa.setSenha('teste123')
+
+  VacancyController vacancyController = new VacancyController(vacancyService: new VacancyService())
+  Vaga vaga = new Vaga()
+  vaga.setNome('Testes dos Bons')
+  vaga.setDescricao("Sou uma vaga teste")
+  vaga.setLocal('Rua dos Testes')
+  vaga.setIdempresa('3')
 
   while(option != "0"){
     println(message)
@@ -115,6 +125,19 @@ static void main(String[] args) {
         break
       case "8":
         employeeController.deleteEmployee(empresa)
+        break
+
+      case "9":
+        vacancyController.showVacancies()
+        break
+      case "10":
+        vacancyController.addVacancy(vaga)
+        break
+      case "11":
+        vacancyController.editVacancy(vaga)
+        break
+      case "12":
+        vacancyController.deleteVacancy(vaga)
         break
       default : println("Incorrect option, try again")
     }

@@ -72,6 +72,33 @@ class PostgreSampleDAO implements IJdbcCRUDSample {
         return result
     }
 
+    List<String> readGeneric(String database, List<String> fields, List<String> values) {
+        Sql conn = jdbcInterface.connect()
+
+        int idx = 0
+
+        String mapFieldValue = fields.collect { field ->
+            "${field} = '${values.get(idx++)}'" }.join(" AND ")
+
+        String query = "SELECT * FROM " +
+                "${database.toLowerCase()} " +
+                "WHERE ${mapFieldValue}"
+
+        println(query)
+
+        List<String> result = new ArrayList<>()
+
+        try {
+            conn.eachRow(query) { row ->
+                result.add(row.toString())
+            }
+        }catch (SQLException e){
+            e.printStackTrace()
+        }
+
+        return result
+    }
+
     boolean update(List<String> fields, List<String> values, int id, String database) {
         println("SampleDAO: " +values)
         assert fields.size() == values.size()
