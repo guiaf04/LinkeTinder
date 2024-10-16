@@ -14,7 +14,7 @@ class SkillsService {
     }
 
     boolean addSkills(Competencia competencia){
-        if (skillsDAO.getElementByCPF(competencia.getCpf()) != null){
+        if (skillsDAO.getElementByName(competencia.getNome()) != null){
             println("Esse usuário já está cadastrado, tente usar informações diferentes para cadastrar um novo usuário")
             return false
         }
@@ -22,16 +22,21 @@ class SkillsService {
         return skillsDAO.criar(competencia)
     }
 
-    List<String> listSkillss(){
+    List<String> listSkills(){
         return skillsDAO.listar()
     }
 
     @SuppressWarnings('GroovyMissingReturnStatement')
     boolean editSkills(Competencia competencia){
-        String olderSkills = skillsDAO.getElementByCPF(competencia.getCpf())
+        String olderSkills = skillsDAO.getElementByName(competencia.getNome())
 
         if (olderSkills == null){
-            println "Esse usuário não está cadastrado, então não é possível editá-lo"
+            println "Essa competencia não está cadastrada, então não é possível editá-la"
+            return false
+        }
+
+        if (olderSkills.equalsIgnoreCase(competencia.getNome())){
+            println("Já existe uma competencia com esse nome, então não é possível atualizar")
             return false
         }
 
@@ -40,38 +45,14 @@ class SkillsService {
         List<String> values = new ArrayList<>()
         List<String> fields = new ArrayList<>()
 
-        // Converter a string em um mapa, ignorando o campo 'id'
-        List<String> campos = olderSkills.replaceAll(/[\[|\]]/, '').split(', ')
+        values.add(competencia.getNome())
 
-        Map<String, String> novoCompetenciaMap = campos.collectEntries { campo ->
-            def (chave, valor) = campo.split(':')
-            [(chave): valor]
-        }.findAll { chave, _ -> chave != 'id' } // Remover o 'id' do mapa
-
-        // Comparar e encontrar valores alterados
-        novoCompetenciaMap.each { chave, valorAtual ->
-            String propriedade = chave.replace('_', '') // Remover underscore para corresponder aos nomes das propriedades
-            String novoValor = competencia."$propriedade"
-
-            if (valorAtual.toString() != novoValor.toString()) {
-                fields.add(chave)
-                values.add(novoValor)
-            }
-        }
-
-        if (fields.isEmpty()) {
-            println "Nenhuma alteração foi encontrada."
-            return false
-        }
-
-        println "Campos a serem atualizados: $fields"
-        println "Novos valores: $values"
 
         return skillsDAO.atualizar(fields, values, id)
     }
 
     boolean deleteSkills(Competencia competencia){
-        String skills = skillsDAO.getElementByCPF(competencia.getCpf())
+        String skills = skillsDAO.getElementByName(competencia.getNome())
 
         if (skills == null){
             println("Esse usuário não está cadastrado, tente novamente")

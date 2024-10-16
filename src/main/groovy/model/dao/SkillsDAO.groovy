@@ -4,19 +4,32 @@ import model.Competencia
 import model.Vaga
 import model.dao.interfaces.ISampleDAO
 import model.dao.sample.PostgreSampleDAO
-import model.dao.sample.PostgresJDBCSample
 
 class SkillsDAO implements ISampleDAO<Competencia>{
     PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()
 
-    boolean criar(Vaga vaga) {
+    boolean criar(Competencia competencia) {
         List<String> fields =
                 List.of("nome")
+
+        List<String> values = List.of(competencia.getNome())
 
        return jdbcCRUDSample.create(fields, values, "competencia")
     }
 
-    boolean listar() {
+    String getElementByName(String name){
+        assert name != null
+
+        List<String> result = jdbcCRUDSample.readGeneric("competencia", "nome", name)
+
+        if (result.size()==0){
+            return null
+        }
+
+         return result.first()
+    }
+
+    List<String> listar() {
        return jdbcCRUDSample.read("competencia")
     }
 
@@ -24,7 +37,7 @@ class SkillsDAO implements ISampleDAO<Competencia>{
         jdbcCRUDSample.update(fields, values, id, "competencia")
     }
 
-    def deletar(int id) {
+    boolean deletar(int id) {
         jdbcCRUDSample.delete(id, "competencia")
     }
 

@@ -2,12 +2,15 @@ package org.example
 
 import controller.CandidateController
 import controller.EmployeeController
+import controller.SkillsController
 import controller.VacancyController
 import model.Candidato
+import model.Competencia
 import model.Empresa
 import model.Vaga
 import service.CandidateService
 import service.EmployeeService
+import service.SkillsService
 import service.VacancyService
 
 
@@ -94,6 +97,11 @@ static void main(String[] args) {
   vaga.setLocal('Rua dos Testes')
   vaga.setIdempresa('3')
 
+  SkillsController skillsController = new SkillsController(skillsService: new SkillsService())
+  Competencia competencia = new Competencia()
+  competencia.setNome("Java")
+
+
   while(option != "0"){
     println(message)
     option = scanner.next()
@@ -138,6 +146,18 @@ static void main(String[] args) {
         break
       case "12":
         vacancyController.deleteVacancy(vaga)
+        break
+      case "13":
+        skillsController.showSkills()
+        break
+      case "14":
+        skillsController.addSkills(competencia)
+        break
+      case "15":
+        skillsController.editSkills(competencia)
+        break
+      case "16":
+        skillsController.deleteSkills(competencia)
         break
       default : println("Incorrect option, try again")
     }

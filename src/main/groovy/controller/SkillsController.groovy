@@ -6,8 +6,8 @@ import service.SkillsService
 class SkillsController {
     SkillsService skillsService
 
-    void showUsers(){
-        println skillsService.listSkillss().join("\n")
+    void showSkills(){
+        println skillsService.listSkills().join("\n")
     }
 
     boolean addSkills(Competencia competencias){
