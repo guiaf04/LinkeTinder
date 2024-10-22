@@ -36,7 +36,7 @@ class SkillView {
                 skillController.addSkills(competencia)
                 break
             case "b":
-                skillController.showSkills()
+                println skillController.showSkills().join('\n')
                 break
             case "c":
                 skillController.editSkills(createSkill())

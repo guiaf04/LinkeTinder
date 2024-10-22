@@ -2,10 +2,13 @@ package org.example
 
 import controller.CandidateController
 import controller.EmployeeController
+import controller.SkillsController
 import dao.CandidateDAO
 import dao.EmployeeDAO
+import dao.SkillsDAO
 import service.CandidateService
 import service.EmployeeService
+import service.SkillsService
 import view.CandidateView
 import view.EmployeeView
 import view.SkillView
@@ -36,7 +39,11 @@ static void main(String[] args) {
   EmployeeController employeeController = new EmployeeController(employeeService: employeeService)
   EmployeeView employeeView = new EmployeeView(employeeController: employeeController)
 
-  SkillView skillView = new SkillView()
+  SkillsDAO skillsDAO = new SkillsDAO()
+  SkillsService skillService = new SkillsService(skillsDAO: skillsDAO)
+  SkillsController skillsController = new SkillsController(skillsService: skillService)
+  SkillView skillView = new SkillView(skillController: skillsController)
+
   VacancyView vacancyView = new VacancyView()
 
   while(option != "0"){

@@ -1,43 +1,104 @@
 package dao
 
+import dao.enums.JDBCDatabases
+import dao.factorys.JDBCDatabaseFactory
+import dao.interfaces.JDBCInterface
+import groovy.sql.Sql
 import model.Competencia
-import dao.interfaces.ISampleDAO
-import dao.sample.PostgreSampleDAO
 
-class SkillsDAO implements ISampleDAO<Competencia>{
-    PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()
+import java.sql.SQLException
+
+class SkillsDAO{
+    JDBCDatabaseFactory databaseFactory = new JDBCDatabaseFactory()
+    JDBCInterface jdbcInterface = databaseFactory.getDatabase(JDBCDatabases.PostgreSQL)
 
     boolean criar(Competencia competencia) {
-        List<String> fields =
-                List.of("nome")
+        Sql dbConnection = jdbcInterface.connect()
 
-        List<String> values = List.of(competencia.getNome())
+        String query = "INSERT INTO competencia " +
+                "(nome) VALUES ('${competencia.getNome()}')"
 
-       return jdbcCRUDSample.create(fields, values, "competencia")
-    }
-
-    String getElementByName(String name){
-        assert name != null
-
-        List<String> result = jdbcCRUDSample.readGeneric("competencia", "nome", name)
-
-        if (result.size()==0){
-            return null
+        try {
+            dbConnection.executeInsert(query)
+        } catch (SQLException e) {
+            e.printStackTrace()
+            return false
         }
 
-         return result.first()
+        jdbcInterface.disconnect(dbConnection)
+
+        return true
+    }
+
+    String getElementByName(Competencia competencia){
+        String result = ""
+
+        Sql conn = jdbcInterface.connect()
+
+        String query = "SELECT * FROM " +
+                "competencia " +
+                "WHERE nome='${competencia.getNome()}'"
+
+        try {
+            conn.eachRow(query) { row ->
+                result = row.toString()
+            }
+        }catch (SQLException e){
+            e.printStackTrace()
+        }
+
+        return result
     }
 
     List<String> listar() {
-       return jdbcCRUDSample.read("competencia")
+        Sql conn = jdbcInterface.connect()
+        List<String> result = new ArrayList<>()
+
+        try {
+            conn.eachRow("SELECT * FROM competencia") { row ->
+                result.add(row.toString())
+            }
+        } catch (SQLException e) {
+            println(e.stackTrace)
+        }
+
+        jdbcInterface.disconnect(conn)
+
+        return result
     }
 
-    boolean atualizar(List<String> fields, List<String> values, int id) {
-        jdbcCRUDSample.update(fields, values, id, "competencia")
+    boolean atualizar(Competencia competencia) {
+        Sql conn = jdbcInterface.connect()
+
+        String setClause = "nome='${competencia.getNome()}'"
+
+        String query = "UPDATE competencia SET ${setClause} WHERE nome='${competencia.getNome()}'"
+
+        try {
+            conn.executeUpdate query
+        } catch (SQLException e) {
+            e.printStackTrace()
+            return false
+        }
+
+        jdbcInterface.disconnect(conn)
+        return true
     }
 
-    boolean deletar(int id) {
-        jdbcCRUDSample.delete(id, "competencia")
+    boolean deletar(Competencia competencia) {
+        Sql conn = jdbcInterface.connect()
+
+        String query = "DELETE FROM competencia WHERE nome='${competencia.getNome()}'"
+
+        try {
+            conn.execute(query)
+        } catch (SQLException e) {
+            e.printStackTrace()
+            return false
+        }
+
+        jdbcInterface.disconnect(conn)
+        return true
     }
 
 }
