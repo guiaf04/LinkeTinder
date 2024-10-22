@@ -48,7 +48,7 @@ class EmployeeView {
                 employeeController.addEmployee(empresa)
                 break
             case "b":
-                employeeController.showEmployees()
+                println employeeController.showEmployees().join('\n')
                 break
             case "c":
                 employeeController.editEmployee(createEmployee())

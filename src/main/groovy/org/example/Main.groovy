@@ -1,8 +1,11 @@
 package org.example
 
 import controller.CandidateController
+import controller.EmployeeController
 import dao.CandidateDAO
+import dao.EmployeeDAO
 import service.CandidateService
+import service.EmployeeService
 import view.CandidateView
 import view.EmployeeView
 import view.SkillView
@@ -28,7 +31,11 @@ static void main(String[] args) {
   CandidateController candidateController = new CandidateController(candidateService: candidateService)
   CandidateView candidateView = new CandidateView(candidateController: candidateController)
 
-  EmployeeView employeeView = new EmployeeView()
+  EmployeeDAO employeeDAO = new EmployeeDAO()
+  EmployeeService employeeService = new EmployeeService(employeeDAO: employeeDAO)
+  EmployeeController employeeController = new EmployeeController(employeeService: employeeService)
+  EmployeeView employeeView = new EmployeeView(employeeController: employeeController)
+
   SkillView skillView = new SkillView()
   VacancyView vacancyView = new VacancyView()
 

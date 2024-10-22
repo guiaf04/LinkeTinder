@@ -7,7 +7,7 @@ class CandidateService {
     CandidateDAO candidateDAO
 
     boolean addCandidate(Candidato candidato){
-        if (candidateDAO.getElementByCPF(candidato) != null){
+        if (candidateDAO.getElementByCPF(candidato) != ""){
             println("Esse usuário já está cadastrado, tente usar informações diferentes para cadastrar um novo usuário")
             return false
         }
