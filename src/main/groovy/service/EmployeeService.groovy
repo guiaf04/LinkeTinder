@@ -1,8 +1,8 @@
 package service
 
 import model.Empresa
-import model.dao.EmployeeDAO
-import model.dao.interfaces.ISampleDAO
+import dao.EmployeeDAO
+import dao.interfaces.ISampleDAO
 
 class EmployeeService {
     ISampleDAO employeeDAO = new EmployeeDAO()

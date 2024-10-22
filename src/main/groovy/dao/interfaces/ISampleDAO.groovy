@@ -1,4 +1,4 @@
-package model.dao.interfaces
+package dao.interfaces
 
 interface ISampleDAO <T>{
     boolean criar(T table)

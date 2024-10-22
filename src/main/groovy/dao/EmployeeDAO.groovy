@@ -1,9 +1,8 @@
-package model.dao
+package dao
 
 import model.Empresa
-import model.dao.interfaces.ISampleDAO
-import model.dao.sample.PostgreSampleDAO
-import model.dao.sample.PostgresJDBCSample
+import dao.interfaces.ISampleDAO
+import dao.sample.PostgreSampleDAO
 
 class EmployeeDAO implements ISampleDAO<Empresa>{
     PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()

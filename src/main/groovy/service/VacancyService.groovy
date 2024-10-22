@@ -1,8 +1,8 @@
 package service
 
 import model.Vaga
-import model.dao.VacancyDAO
-import model.dao.interfaces.ISampleDAO
+import dao.VacancyDAO
+import dao.interfaces.ISampleDAO
 
 class VacancyService {
     ISampleDAO vacancyDAO = new VacancyDAO()

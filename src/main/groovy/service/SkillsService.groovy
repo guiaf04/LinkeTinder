@@ -1,8 +1,8 @@
 package service
 
 import model.Competencia
-import model.dao.SkillsDAO
-import model.dao.interfaces.ISampleDAO
+import dao.SkillsDAO
+import dao.interfaces.ISampleDAO
 
 class SkillsService {
     ISampleDAO skillsDAO = new SkillsDAO()

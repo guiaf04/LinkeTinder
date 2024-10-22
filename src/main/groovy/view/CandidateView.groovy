@@ -5,13 +5,12 @@ import model.Candidato
 import service.CandidateService
 
 class CandidateView {
-    CandidateController candidateController = new CandidateController(candidateService: new CandidateService())
+    CandidateController candidateController
 
     Scanner scanner = new Scanner(System.in).useDelimiter('\n')
 
     Candidato createCandidate(){
         Candidato candidato = new Candidato()
-        println candidato.getProperty("teste")
         println("Write your First Name:")
         candidato.setNome(scanner.next())
         println("Write your Last Name:")
@@ -52,7 +51,7 @@ class CandidateView {
                 candidateController.addCandidate(candidato)
                 break
             case "b":
-                candidateController.showUsers()
+                println candidateController.showUsers().join("\n")
                 break
             case "c":
                 candidateController.editCandidate(createCandidate())

@@ -1,11 +1,9 @@
-import controller.CandidateController
 import model.Candidato
-import model.dao.interfaces.ISampleDAO
+import dao.interfaces.ISampleDAO
 import org.junit.jupiter.api.Test
 import service.CandidateService
 
 import static org.junit.Assert.*
-import static org.mockito.Mockito.*
 
 class CandidatoTest {
     ISampleDAO candidatoDAO = mock(ISampleDAO.class)

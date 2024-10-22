@@ -1,10 +1,10 @@
-package model.dao.sample
+package dao.sample
 
 import groovy.sql.Sql
-import model.dao.enums.JDBCDatabases
-import model.dao.factorys.JDBCDatabaseFactory
-import model.dao.interfaces.IJdbcCRUDSample
-import model.dao.interfaces.JDBCInterface
+import dao.enums.JDBCDatabases
+import dao.factorys.JDBCDatabaseFactory
+import dao.interfaces.IJdbcCRUDSample
+import dao.interfaces.JDBCInterface
 
 import java.sql.SQLException
 

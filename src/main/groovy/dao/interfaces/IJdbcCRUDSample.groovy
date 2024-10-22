@@ -1,4 +1,4 @@
-package model.dao.interfaces
+package dao.interfaces
 
 interface IJdbcCRUDSample {
     boolean create(List<String> fields, List<String> values, String database);

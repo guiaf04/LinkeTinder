@@ -1,4 +1,4 @@
-package model.dao.interfaces
+package dao.interfaces
 
 import groovy.sql.Sql
 

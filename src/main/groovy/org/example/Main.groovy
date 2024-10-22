@@ -1,5 +1,8 @@
 package org.example
 
+import controller.CandidateController
+import dao.CandidateDAO
+import service.CandidateService
 import view.CandidateView
 import view.EmployeeView
 import view.SkillView
@@ -20,7 +23,11 @@ static void main(String[] args) {
     4 to show vacancy's operations of the system
   """
 
-  CandidateView candidateView = new CandidateView()
+  CandidateDAO candidateDAO = new CandidateDAO()
+  CandidateService candidateService = new CandidateService(candidateDAO: candidateDAO)
+  CandidateController candidateController = new CandidateController(candidateService: candidateService)
+  CandidateView candidateView = new CandidateView(candidateController: candidateController)
+
   EmployeeView employeeView = new EmployeeView()
   SkillView skillView = new SkillView()
   VacancyView vacancyView = new VacancyView()

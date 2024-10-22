@@ -1,8 +1,8 @@
-package model.dao
+package dao
 
 import model.Vaga
-import model.dao.interfaces.ISampleDAO
-import model.dao.sample.PostgreSampleDAO
+import dao.interfaces.ISampleDAO
+import dao.sample.PostgreSampleDAO
 
 class VacancyDAO implements ISampleDAO<Vaga>{
     PostgreSampleDAO jdbcCRUDSample = new PostgreSampleDAO()
