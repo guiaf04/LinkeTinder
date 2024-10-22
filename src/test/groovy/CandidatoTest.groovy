@@ -1,26 +1,42 @@
+import controller.CandidateController
+import dao.CandidateDAO
+import model.Candidato
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import service.CandidateService
+import static org.junit.jupiter.api.Assertions.*
+
+import static org.mockito.Mockito.*
 
 class CandidatoTest {
-//    ISampleDAO candidatoDAO = mock(ISampleDAO.class)
-//    CandidateController candidateController = new CandidateController(candidateService: new CandidateService(candidateDAO: candidatoDAO))
-//    CandidateService candidateService = new CandidateService(candidateDAO: candidatoDAO)
+    CandidateDAO candidateDAO = mock(CandidateDAO)
+    CandidateService candidateService = new CandidateService(candidateDAO: candidateDAO)
+    CandidateController candidateController = new CandidateController(candidateService: candidateService)
+
+    Candidato candidato1 = new Candidato()
+    Candidato candidato2 = new Candidato()
+
+
+    @BeforeEach
+    void configTests(){
+        when(candidateDAO.getElementByCPF(candidato1)).thenReturn("")
+        when(candidateDAO.getElementByCPF(candidato2)).thenReturn(".....")
+        when(candidateDAO.criar(any(Candidato.class))).thenReturn(true)
+    }
+
     @Test
-    void createCandidateTest() {
-//        Candidato candidato = new Candidato()
-//        candidato.setName('teste')
-//        candidato.setIdade('teste')
-//        candidato.setState('teste')
-//        candidato.setEmail('teste')
-//        candidato.setCep('teste')
-//        candidato.setDescription('teste')
-//        candidato.setCpf('teste')
-//
-//        List<String> teste = candidato.getProperties().findAll {!it.key.toString().equalsIgnoreCase("class")}.values() as List<String>
-//        when(candidatoDAO.addCandidate(teste)).thenReturn(true)
-//
-//        boolean success = candidateService.addCandidate(candidato)
-//
-//        assertTrue(success)
+    void createUniqueCandidateTest() {
+        boolean success = candidateController.addCandidate(candidato1)
+
+        assertTrue(success)
+    }
+
+    @Test
+    void createDuplicateCandidateTest() {
+        boolean success = candidateController.addCandidate(candidato2)
+
+        assertFalse(success)
     }
 
 }
