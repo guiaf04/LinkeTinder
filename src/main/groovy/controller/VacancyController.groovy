@@ -6,37 +6,19 @@ import service.VacancyService
 class VacancyController {
     VacancyService vacancyService
 
-    void showVacancies(){
-        println vacancyService.listVacancys().join("\n")
+    List<String> showVacancies(){
+        return vacancyService.listVacancys()
     }
 
     boolean addVacancy(Vaga vaga){
-        if (!vacancyService.addVacancy(vaga)) {
-            println("Não foi possível adicionar o vaga")
-            return false
-        }
-
-        println("Vaga inserido com sucesso!")
-        return true
+        return vacancyService.addVacancy(vaga)
     }
 
     boolean editVacancy(Vaga vaga){
-        if (!vacancyService.editVacancy(vaga)) {
-            println("Não foi possível editar o vaga")
-            return false
-        }
-
-        println("Vaga editado com sucesso!")
-        return true
+        return vacancyService.editVacancy(vaga)
     }
 
     boolean deleteVacancy(Vaga vaga){
-        if (!vacancyService.deleteVacancy(vaga)) {
-            println("Não foi possível deletar o vaga")
-            return false
-        }
-
-        println("Vaga deletado com sucesso!")
-        return true
+        return vacancyService.deleteVacancy(vaga)
     }
 }

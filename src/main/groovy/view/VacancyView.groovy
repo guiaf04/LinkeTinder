@@ -42,7 +42,7 @@ class VacancyView {
                 vacancyController.addVacancy(vaga)
                 break
             case "b":
-                vacancyController.showVacancies()
+                println vacancyController.showVacancies().join('\n')
                 break
             case "c":
                 vacancyController.editVacancy(createVacancy())
