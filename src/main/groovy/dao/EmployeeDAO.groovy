@@ -5,9 +5,6 @@ import dao.factorys.JDBCDatabaseFactory
 import dao.interfaces.JDBCInterface
 import groovy.sql.Sql
 import model.Empresa
-import model.Empresa
-import dao.interfaces.ISampleDAO
-import dao.sample.PostgreSampleDAO
 
 import java.sql.SQLException
 
