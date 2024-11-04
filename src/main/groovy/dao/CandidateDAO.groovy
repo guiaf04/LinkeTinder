@@ -34,13 +34,24 @@ class CandidateDAO  {
         return true
     }
 
-    List<String> listar() {
+    List<Candidato> listar() {
         Sql conn = jdbcInterface.connect()
-        List<String> result = new ArrayList<>()
+        List<Candidato> result = new ArrayList<>()
 
         try {
             conn.eachRow("SELECT * FROM candidato") { row ->
-                result.add(row.toString())
+                Candidato candidato = new Candidato()
+                candidato.setNome(row[1] as String)
+                candidato.setSobrenome(row[2] as String)
+                candidato.setDatanascimento(row[3] as String)
+                candidato.setEmail(row[4] as String)
+                candidato.setCpf(row[5] as String)
+                candidato.setPais(row[6] as String)
+                candidato.setCep(row[7] as String)
+                candidato.setDescricaopessoal(row[8] as String)
+                candidato.setSenha(row[9] as String)
+
+                result.add(candidato)
             }
         } catch (SQLException e) {
             println(e.stackTrace)

@@ -15,7 +15,7 @@ class CandidateService {
         return candidateDAO.criar(candidato)
     }
 
-    List<String> listCandidates(){
+    List<Candidato> listCandidates(){
         return candidateDAO.listar()
     }
 
