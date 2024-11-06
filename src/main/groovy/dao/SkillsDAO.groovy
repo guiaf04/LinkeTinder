@@ -50,13 +50,15 @@ class SkillsDAO{
         return result
     }
 
-    List<String> listar() {
+    List<Competencia> listar() {
         Sql conn = jdbcInterface.connect()
-        List<String> result = new ArrayList<>()
+        List<Competencia> result = new ArrayList<>()
 
         try {
             conn.eachRow("SELECT * FROM competencia") { row ->
-                result.add(row.toString())
+                Competencia competencia = new Competencia()
+                competencia.setNome(row[1].toString())
+                result.add(competencia)
             }
         } catch (SQLException e) {
             println(e.stackTrace)

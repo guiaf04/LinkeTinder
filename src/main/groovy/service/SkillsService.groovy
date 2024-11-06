@@ -15,7 +15,7 @@ class SkillsService {
         return skillsDAO.criar(competencia)
     }
 
-    List<String> listSkills(){
+    List<Competencia> listSkills(){
         return skillsDAO.listar()
     }
 

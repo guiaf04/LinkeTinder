@@ -3,14 +3,44 @@ package dao
 import dao.enums.JDBCDatabases
 import dao.factorys.JDBCDatabaseFactory
 import dao.interfaces.JDBCInterface
+import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import model.Candidato
+import model.Competencia
 
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 import java.sql.SQLException
 
 class CandidateDAO  {
     JDBCDatabaseFactory databaseFactory = new JDBCDatabaseFactory()
     JDBCInterface jdbcInterface = databaseFactory.getDatabase(JDBCDatabases.PostgreSQL)
+
+    int getSkillsID(Competencia competencia){
+        Sql dbConnection = jdbcInterface.connect()
+
+        GroovyRowResult row = dbConnection.firstRow("SELECT id FROM competencia WHERE nome = ?", [competencia.getNome()])
+        if (row) {
+            return row.id as int
+        } else {
+            throw new SQLException("Competência não encontrada: $competencia")
+        }
+    }
+
+    boolean insertSkill(Competencia competencia, int candidatoID){
+        Sql dbConnection = jdbcInterface.connect()
+
+        String query = "INSERT INTO candidato_competencia (id_candidato, id_competencia) VALUES (${candidatoID}, ${getSkillsID(competencia)})"
+
+        try{
+            dbConnection.executeInsert(query)
+        }catch (Exception e){
+            e.printStackTrace()
+            return false
+        }
+
+        return true
+    }
 
     boolean criar(Candidato candidato) {
         Sql dbConnection = jdbcInterface.connect()

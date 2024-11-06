@@ -2,6 +2,9 @@ package service
 
 import model.Candidato
 import dao.CandidateDAO
+import model.Competencia
+
+import java.sql.SQLException
 
 class CandidateService {
     CandidateDAO candidateDAO
@@ -17,6 +20,17 @@ class CandidateService {
 
     List<Candidato> listCandidates(){
         return candidateDAO.listar()
+    }
+
+    boolean addSkills(List<Competencia> competencias, int candidatoID){
+        try {
+            competencias.forEach {
+                candidateDAO.insertSkill((Competencia) it, candidatoID)
+            }
+            return true
+        }catch (SQLException e){
+            return false
+        }
     }
 
     boolean editCandidate(Candidato candidato){

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import model.Candidato
+import model.Competencia
 import service.CandidateService
 
 @WebServlet(urlPatterns = ["/candidatos", "/candidatos/competencias/*"])
@@ -46,6 +47,20 @@ class CandidateController extends HttpServlet{
             Candidato candidato = gson.fromJson(bufferedReader, Candidato.class)
 
             if (candidateService.addCandidate(candidato)){
+                resp.setStatus(HttpServletResponse.SC_CREATED)
+            }else{
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST)
+            }
+        }else if (req.getServletPath() == "/candidatos/competencias"){
+            println "teste"
+            int candidatoId = Integer.parseInt(req.getPathInfo().substring(1))
+
+            BufferedReader bufferedReader = req.getReader()
+
+            Gson gson = new Gson()
+            List<Competencia> competencias = gson.fromJson(bufferedReader, List<Competencia>)
+
+            if (candidateService.addSkills(competencias, candidatoId)){
                 resp.setStatus(HttpServletResponse.SC_CREATED)
             }else{
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST)

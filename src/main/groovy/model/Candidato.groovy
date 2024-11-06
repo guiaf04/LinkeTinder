@@ -1,7 +1,16 @@
 package model
 
 class Candidato{
-    String nome, sobrenome, datanascimento, email, cpf, pais, cep, descricaopessoal, senha
+    String nome
+    String sobrenome
+    String  datanascimento
+    String email
+    transient String cpf
+    String pais
+    String cep
+    String descricaopessoal
+
+    transient String senha
 
 
     @Override
