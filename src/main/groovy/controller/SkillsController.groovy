@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import model.Candidato
 import model.Competencia
 import service.SkillsService
 
@@ -17,7 +16,7 @@ class SkillsController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Candidato> jsonText = skillsService.listSkills()
+        List<Competencia> jsonText = skillsService.listSkills()
 
         Gson gson = new Gson()
         String jsonResult = "["
@@ -37,19 +36,4 @@ class SkillsController extends HttpServlet{
         super.doPost(req, resp)
     }
 
-    List<Competencia> showSkills(){
-        return skillsService.listSkills()
-    }
-
-    boolean addSkills(Competencia competencias){
-        return skillsService.addSkills(competencias)
-    }
-
-    boolean editSkills(Competencia competencias){
-        return skillsService.editSkills(competencias)
-    }
-
-    boolean deleteSkills(Competencia competencias){
-        return skillsService.deleteSkills(competencias)
-    }
 }

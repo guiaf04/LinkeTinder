@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import model.Competencia
 import model.Vaga
 import service.VacancyService
 
@@ -46,21 +45,5 @@ class VacancyController extends HttpServlet{
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST)
         }
 
-    }
-
-    List<String> showVacancies(){
-        return vacancyService.listVacancys()
-    }
-
-    boolean addVacancy(Vaga vaga){
-        return vacancyService.addVacancy(vaga)
-    }
-
-    boolean editVacancy(Vaga vaga){
-        return vacancyService.editVacancy(vaga)
-    }
-
-    boolean deleteVacancy(Vaga vaga){
-        return vacancyService.deleteVacancy(vaga)
     }
 }

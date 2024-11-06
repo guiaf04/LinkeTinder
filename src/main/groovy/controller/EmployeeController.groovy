@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import model.Candidato
 import model.Empresa
 import service.EmployeeService
 
@@ -42,21 +41,5 @@ class EmployeeController extends HttpServlet{
         }else{
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST)
         }
-    }
-
-    List<Empresa> showEmployees(){
-        return employeeService.listEmployees()
-    }
-
-    boolean addEmployee(Empresa empresa){
-        return employeeService.addEmployee(empresa)
-    }
-
-    boolean editEmployee(Empresa empresa){
-        return employeeService.editEmployee(empresa)
-    }
-
-    boolean deleteEmployee(Empresa empresa){
-        return employeeService.deleteEmployee(empresa)
     }
 }
