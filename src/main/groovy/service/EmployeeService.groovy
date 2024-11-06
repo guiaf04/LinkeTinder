@@ -15,7 +15,7 @@ class EmployeeService {
         return employeeDAO.criar(empresa)
     }
 
-    List<String> listEmployees(){
+    List<Empresa> listEmployees(){
         return employeeDAO.listar()
     }
     

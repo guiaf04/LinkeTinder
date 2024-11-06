@@ -22,5 +22,24 @@
         <servlet-class>controller.CandidateController</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>SkillsController</servlet-name>
+        <servlet-class>controller.SkillsController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SkillsController</servlet-name>
+        <url-pattern>/competencia</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EmployeeController</servlet-name>
+        <servlet-class>controller.EmployeeController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EmployeeController</servlet-name>
+        <url-pattern>/empresas</url-pattern>
+    </servlet-mapping>
 
 </web-app>

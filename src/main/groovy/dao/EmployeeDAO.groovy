@@ -5,6 +5,7 @@ import dao.factorys.JDBCDatabaseFactory
 import dao.interfaces.JDBCInterface
 import groovy.sql.Sql
 import model.Empresa
+import model.Empresa
 
 import java.sql.SQLException
 
@@ -34,13 +35,22 @@ class EmployeeDAO{
         return true
     }
 
-    List<String> listar() {
+    List<Empresa> listar() {
         Sql conn = jdbcInterface.connect()
-        List<String> result = new ArrayList<>()
+        List<Empresa> result = new ArrayList<>()
 
         try {
             conn.eachRow("SELECT * FROM empresa") { row ->
-                result.add(row.toString())
+                Empresa empresa = new Empresa()
+                empresa.setNome(row[1] as String)
+                empresa.setEmail(row[2] as String)
+                empresa.setCnpj(row[3] as String)
+                empresa.setPais(row[4] as String)
+                empresa.setCep(row[5] as String)
+                empresa.setDescricao(row[6] as String)
+                empresa.setSenha(row[7] as String)
+
+                result.add(empresa)
             }
         } catch (SQLException e) {
             println(e.stackTrace)
