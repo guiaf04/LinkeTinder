@@ -52,13 +52,19 @@ class VacancyDAO{
         return true
     }
 
-    List<String> listar() {
+    List<Vaga> listar() {
         Sql conn = jdbcInterface.connect()
-        List<String> result = new ArrayList<>()
+        List<Vaga> result = new ArrayList<>()
 
         try {
             conn.eachRow("SELECT * FROM vaga") { row ->
-                result.add(row.toString())
+                Vaga vaga = new Vaga()
+                vaga.setNome(row[1].toString())
+                vaga.setDescricao(row[2].toString())
+                vaga.setLocal(row[3].toString())
+                vaga.setIdempresa(row[4].toString())
+
+                result.add(vaga)
             }
         } catch (SQLException e) {
             println(e.stackTrace)

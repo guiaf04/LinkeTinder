@@ -14,7 +14,7 @@ class VacancyService {
         return vacancyDAO.criar(vaga)
     }
 
-    List<String> listVacancys(){
+    List<Vaga> listVacancys(){
         return vacancyDAO.listar()
     }
 

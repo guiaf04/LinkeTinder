@@ -42,4 +42,19 @@
         <url-pattern>/empresas</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>VacancyController</servlet-name>
+        <servlet-class>controller.VacancyController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VacancyController</servlet-name>
+        <url-pattern>/vagas</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>VacancyController</servlet-name>
+        <url-pattern>/vagas/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>
