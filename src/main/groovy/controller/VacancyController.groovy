@@ -17,17 +17,9 @@ class VacancyController extends HttpServlet{
         List<Vaga> jsonText = vacancyService.listVacancys()
 
         Gson gson = new Gson()
-        String jsonResult = "["
+        String jsonResult = gson.toJson(jsonText)
 
-        jsonText.forEach {
-            jsonResult += gson.toJson(it)
-            jsonResult += ","
-        }
-
-        jsonResult += "]"
-        jsonResult = jsonResult.replace(/,]/, ']')
         resp.getWriter().write(jsonResult)
-
     }
 
     @Override

@@ -17,15 +17,8 @@ class EmployeeController extends HttpServlet{
         List<Empresa> jsonText = employeeService.listEmployees()
 
         Gson gson = new Gson()
-        String jsonResult = "["
 
-        jsonText.forEach {
-            jsonResult += gson.toJson(it)
-            jsonResult += ","
-        }
-
-        jsonResult += "]"
-        jsonResult = jsonResult.replace(/,]/, ']')
+        String jsonResult = gson.toJson(jsonText)
         resp.getWriter().write(jsonResult)
     }
 

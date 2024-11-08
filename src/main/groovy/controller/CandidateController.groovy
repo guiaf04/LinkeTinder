@@ -21,15 +21,7 @@ class CandidateController extends HttpServlet{
             List<Candidato> jsonText = candidateService.listCandidates()
 
             Gson gson = new Gson()
-            String jsonResult = "["
-
-            jsonText.forEach {
-                jsonResult += gson.toJson(it)
-                jsonResult += ","
-            }
-
-            jsonResult += "]"
-            jsonResult = jsonResult.replace(/,]/, ']')
+            String jsonResult = gson.toJson(jsonText)
             resp.getWriter().write(jsonResult)
 
             return
@@ -52,7 +44,6 @@ class CandidateController extends HttpServlet{
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST)
             }
         }else if (req.getServletPath() == "/candidatos/competencias"){
-            println "teste"
             int candidatoId = Integer.parseInt(req.getPathInfo().substring(1))
 
             BufferedReader bufferedReader = req.getReader()

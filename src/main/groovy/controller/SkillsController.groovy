@@ -19,15 +19,8 @@ class SkillsController extends HttpServlet{
         List<Competencia> jsonText = skillsService.listSkills()
 
         Gson gson = new Gson()
-        String jsonResult = "["
+        String jsonResult = gson.toJson(jsonText)
 
-        jsonText.forEach {
-            jsonResult += gson.toJson(it)
-            jsonResult += ","
-        }
-
-        jsonResult += "]"
-        jsonResult = jsonResult.replace(/,]/, ']')
         resp.getWriter().write(jsonResult)
     }
 
