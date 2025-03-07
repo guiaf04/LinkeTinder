@@ -1,40 +1,45 @@
 package com.linketinder.service
 
-import com.linketinder.model.Competencia
-import com.linketinder.dao.SkillsDAO
+import com.linketinder.exception.DuplicateEntity
+import com.linketinder.exception.EntityNotFound
+import com.linketinder.model.Skill
+import com.linketinder.repository.SkillRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
+@Service
 class SkillsService {
-    SkillsDAO skillsDAO
 
-    boolean addSkills(Competencia competencia){
-        if (skillsDAO.getElementByName(competencia) != ""){
-            println("Esse usuário já está cadastrado, tente usar informações diferentes para cadastrar um novo usuário")
-            return false
+    @Autowired
+    SkillRepository skillRepository
+
+    Skill addSkill(Skill skill){
+        if (skillRepository.findByName(skill.getName())){
+            throw new DuplicateEntity("There is another skill with this name!")
         }
 
-        return skillsDAO.criar(competencia)
+        return skillRepository.save(skill)
     }
 
-    List<Competencia> listSkills(){
-        return skillsDAO.listar()
+    List<Skill> listSkills(){
+        return skillRepository.findAll()
     }
 
-    @SuppressWarnings('GroovyMissingReturnStatement')
-    boolean editSkills(Competencia competencia){
-        if (skillsDAO.getElementByName(competencia) == ""){
-            println "Esse usuário não está cadastrado, então não é possível editá-lo"
-            return false
-        }
+    Skill editSkill(Skill skill){
+        Skill edit = skillRepository.findById(skill.getId()).orElseThrow(
+                () -> new EntityNotFound("No record for this ID")
+        )
 
-        return skillsDAO.atualizar(competencia)
+        edit.name = skill.name
+
+        return skillRepository.save(edit)
     }
 
-    boolean deleteSkills(Competencia competencia){
-        if (skillsDAO.getElementByName(competencia) == ""){
-            println("Esse usuário não está cadastrado, tente novamente")
-            return false
-        }
+    void deleteSkill(Long id){
+        Skill skill = skillRepository.findById(id).orElseThrow(
+                () -> new EntityNotFound("No record for this ID")
+        )
 
-        return skillsDAO.deletar(competencia)
+        skillRepository.delete(skill)
     }
 }

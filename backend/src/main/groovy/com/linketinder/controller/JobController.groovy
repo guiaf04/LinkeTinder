@@ -1,7 +1,7 @@
 package com.linketinder.controller
 
-import com.linketinder.dto.CandidateDTO
-import com.linketinder.model.Candidate
+import com.linketinder.model.Job
+import com.linketinder.service.JobService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -14,39 +14,38 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import com.linketinder.service.CandidateService
 
 @RestController
-@RequestMapping("/candidates")
-class CandidateController {
+@RequestMapping("/jobs")
+class JobController {
 
     @Autowired
-    CandidateService candidateService
+    JobService jobService
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<CandidateDTO> findAll()  {
-        return candidateService.listCandidates()
+    List<Job> findAll()  {
+        return jobService.listJobs()
     }
 
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<CandidateDTO> createCandidate(@RequestBody Candidate candidate){
-        return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.addCandidate(candidate))
+    ResponseEntity<Job> createJob(@RequestBody Job job){
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobService.addJob(job))
     }
 
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    CandidateDTO editCandidate(@RequestBody Candidate candidate){
-        return candidateService.editCandidate(candidate)
+    Job editJob(@RequestBody Job job){
+        return jobService.editJob(job)
     }
 
-    @DeleteMapping(value = "/{cpf}")
-    ResponseEntity<?> deleteCandidate(@PathVariable("cpf") String cpf){
-        candidateService.deleteCandidate(cpf)
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity<?> deleteJob(@PathVariable("id") Long id){
+        jobService.deleteJob(id)
         return ResponseEntity.noContent().build()
     }
 }

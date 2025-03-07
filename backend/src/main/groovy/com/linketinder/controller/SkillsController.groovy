@@ -1,32 +1,51 @@
 package com.linketinder.controller
 
-import com.google.gson.Gson
-import com.linketinder.dao.SkillsDAO
-import jakarta.servlet.ServletException
-import jakarta.servlet.annotation.WebServlet
-import jakarta.servlet.http.HttpServlet
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
-import com.linketinder.model.Competencia
+import com.linketinder.model.Skill
 import com.linketinder.service.SkillsService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
-@WebServlet()
-class SkillsController extends HttpServlet{
-    SkillsService skillsService = new SkillsService(skillsDAO: new SkillsDAO())
+@RestController
+@RequestMapping("/skills")
+class SkillsController {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Competencia> jsonText = skillsService.listSkills()
+    @Autowired
+    SkillsService skillService
 
-        Gson gson = new Gson()
-        String jsonResult = gson.toJson(jsonText)
-
-        resp.getWriter().write(jsonResult)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    List<Skill> findAll()  {
+        return skillService.listSkills()
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp)
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<Skill> createSkill(@RequestBody Skill skill){
+        return ResponseEntity.status(HttpStatus.CREATED).body(skillService.addSkill(skill))
     }
 
+    @PutMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    Skill editSkill(@RequestBody Skill skill){
+        return skillService.editSkill(skill)
+    }
+
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity<?> deleteSkill(@PathVariable("id") Long id){
+        skillService.deleteSkill(id)
+        return ResponseEntity.noContent().build()
+    }
 }

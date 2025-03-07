@@ -1,39 +1,55 @@
 package com.linketinder.service
 
-import com.linketinder.model.Empresa
-import com.linketinder.dao.EmployeeDAO
+import com.linketinder.dto.EmployeeDTO
+import com.linketinder.exception.DuplicateEntity
+import com.linketinder.exception.EntityNotFound
+import com.linketinder.model.Employee
+import com.linketinder.repository.EmployeeRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
+
+import static com.linketinder.mapper.ObjectMapper.parseListObject
+import static com.linketinder.mapper.ObjectMapper.parseObject
+
+@Service
 class EmployeeService {
-    EmployeeDAO employeeDAO
 
-    boolean addEmployee(Empresa empresa){
-        if (employeeDAO.getElementByCNPJ(empresa) != ""){
-            println("Essa empresa já está cadastrado, tente usar informações diferentes para cadastrar uma nova empresa")
-            return false
+    @Autowired
+    EmployeeRepository employeeRepository
+
+    EmployeeDTO addEmployee(Employee employee){
+        if (employeeRepository.getElementByCnpj(employee.getCnpj())){
+            throw new DuplicateEntity("Bad request on employee body!")
         }
 
-        return employeeDAO.criar(empresa)
+        return parseObject(employeeRepository.save(employee), EmployeeDTO.class)
     }
 
-    List<Empresa> listEmployees(){
-        return employeeDAO.listar()
-    }
-    
-    boolean editEmployee(Empresa empresa){
-        if (employeeDAO.getElementByCNPJ(empresa) == ""){
-            println "Essa empresa não está cadastrada, então não é possível editá-la"
-            return false
-        }
-
-        return employeeDAO.atualizar(empresa)
+    List<EmployeeDTO> listEmployees(){
+        return parseListObject(employeeRepository.findAll(), EmployeeDTO.class)
     }
 
-    boolean deleteEmployee(Empresa empresa){
-        if (employeeDAO.getElementByCNPJ(empresa) == ""){
-            println("Esse usuário não está cadastrado, tente novamente")
-            return false
-        }
+    EmployeeDTO editEmployee(Employee employee){
+        Employee edit = employeeRepository.findByCnpj(employee.getCnpj()).orElseThrow(
+                () -> new EntityNotFound("No record for this CNPJ")
+        )
 
-        return employeeDAO.deletar(empresa)
+        edit.name = employee.name
+        edit.email = employee.email
+        edit.country = employee.country
+        edit.cep = employee.cep
+        edit.description = employee.description
+        edit.password = employee.password
+
+        return parseObject(employeeRepository.save(edit), EmployeeDTO.class)
+    }
+
+    void deleteEmployee(String cnpj){
+        Employee employee = employeeRepository.findByCnpj(cnpj).orElseThrow(
+                () -> new EntityNotFound("No record for this CNPJ")
+        )
+
+        employeeRepository.delete(employee)
     }
 }
