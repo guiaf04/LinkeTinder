@@ -8,7 +8,7 @@
 -- Name: candidato; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE candidato (
+CREATE TABLE IF NOT EXISTS candidato (
     id integer NOT NULL,
     nome character varying(50) NOT NULL,
     sobrenome character varying(100) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE candidato (
     senha character varying(40) NOT NULL
 );
 
-CREATE SEQUENCE candidato_id_seq
+CREATE SEQUENCE IF NOT EXISTS candidato_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -33,13 +33,13 @@ CREATE SEQUENCE candidato_id_seq
 -- Name: candidato_competencia; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE candidato_competencia (
+CREATE TABLE IF NOT EXISTS candidato_competencia (
     id integer NOT NULL,
     id_candidato integer NOT NULL,
     id_competencia integer NOT NULL
 );
 
-CREATE SEQUENCE candidato_competencia_id_seq
+CREATE SEQUENCE IF NOT EXISTS candidato_competencia_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -50,10 +50,14 @@ CREATE SEQUENCE candidato_competencia_id_seq
 -- Name: candidato_vaga; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE candidato_vaga (
-    id integer NOT NULL,
-    id_candidato integer,
-    id_vafa integer
+CREATE TABLE IF NOT EXISTS candidato_vaga_match (
+  id integer NOT NULL ,
+  id_candidato integer NOT NULL,
+  id_vaga integer NOT NULL,
+  candidato_liked BOOLEAN DEFAULT FALSE,
+  empresa_liked BOOLEAN DEFAULT FALSE,
+  match BOOLEAN DEFAULT FALSE,
+  UNIQUE (id_candidato, id_vaga)
 );
 
 
@@ -61,7 +65,7 @@ CREATE TABLE candidato_vaga (
 -- Name: candidato_vaga_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE candidato_vaga_id_seq
+CREATE SEQUENCE IF NOT EXISTS candidato_vaga_match_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -70,22 +74,22 @@ CREATE SEQUENCE candidato_vaga_id_seq
     CACHE 1;
 
 
-ALTER TABLE candidato_vaga_id_seq OWNER TO postgres;
+ALTER TABLE candidato_vaga_match_id_seq OWNER TO postgres;
 
 --
 -- Name: candidato_vaga_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE candidato_vaga_id_seq OWNED BY candidato_vaga.id;
+ALTER SEQUENCE candidato_vaga_match_id_seq OWNED BY candidato_vaga_match.id;
 
 
 --
 -- Name: competencia; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE competencia (
-    id integer NOT NULL,
-    nome character varying(100) NOT NULL
+CREATE TABLE IF NOT EXISTS competencia (
+                             id integer NOT NULL,
+                             nome character varying(100) NOT NULL
 );
 
 
@@ -95,7 +99,7 @@ ALTER TABLE competencia OWNER TO postgres;
 -- Name: competencia_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE competencia_id_seq
+CREATE SEQUENCE IF NOT EXISTS competencia_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -117,15 +121,15 @@ ALTER SEQUENCE competencia_id_seq OWNED BY competencia.id;
 -- Name: empresa; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE empresa (
-    id integer NOT NULL,
-    nome character varying(100) NOT NULL,
-    email character varying(100) NOT NULL,
-    cnpj character varying(20) NOT NULL,
-    pais character varying(100) NOT NULL,
-    cep character varying(20) NOT NULL,
-    descricao character varying(255) NOT NULL,
-    senha character varying(40) NOT NULL
+CREATE TABLE IF NOT EXISTS empresa (
+                         id integer NOT NULL,
+                         nome character varying(100) NOT NULL,
+                         email character varying(100) NOT NULL,
+                         cnpj character varying(20) NOT NULL,
+                         pais character varying(100) NOT NULL,
+                         cep character varying(20) NOT NULL,
+                         descricao character varying(255) NOT NULL,
+                         senha character varying(40) NOT NULL
 );
 
 
@@ -135,7 +139,7 @@ ALTER TABLE empresa OWNER TO postgres;
 -- Name: empresa_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE empresa_id_seq
+CREATE SEQUENCE IF NOT EXISTS empresa_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -157,12 +161,12 @@ ALTER SEQUENCE empresa_id_seq OWNED BY empresa.id;
 -- Name: vaga; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE vaga (
-    id integer NOT NULL,
-    nome character varying(255) NOT NULL,
-    descricao character varying(255) NOT NULL,
-    local character varying(255) NOT NULL,
-    id_empresa integer
+CREATE TABLE IF NOT EXISTS vaga (
+                      id integer NOT NULL,
+                      nome character varying(255) NOT NULL,
+                      descricao character varying(255) NOT NULL,
+                      local character varying(255) NOT NULL,
+                      id_empresa integer
 );
 
 
@@ -172,10 +176,10 @@ ALTER TABLE vaga OWNER TO postgres;
 -- Name: vaga_competencia; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE vaga_competencia (
-    id integer NOT NULL,
-    id_vaga integer NOT NULL,
-    id_competencia integer NOT NULL
+CREATE TABLE IF NOT EXISTS vaga_competencia (
+                                  id integer NOT NULL,
+                                  id_vaga integer NOT NULL,
+                                  id_competencia integer NOT NULL
 );
 
 
@@ -185,7 +189,7 @@ ALTER TABLE vaga_competencia OWNER TO postgres;
 -- Name: vaga_competencia_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE vaga_competencia_id_seq
+CREATE SEQUENCE IF NOT EXISTS vaga_competencia_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -207,7 +211,7 @@ ALTER SEQUENCE vaga_competencia_id_seq OWNED BY vaga_competencia.id;
 -- Name: vaga_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE vaga_id_seq
+CREATE SEQUENCE IF NOT EXISTS vaga_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -243,7 +247,7 @@ ALTER TABLE ONLY candidato_competencia ALTER COLUMN id SET DEFAULT nextval('cand
 -- Name: candidato_vaga id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY candidato_vaga ALTER COLUMN id SET DEFAULT nextval('candidato_vaga_id_seq'::regclass);
+ALTER TABLE ONLY candidato_vaga_match ALTER COLUMN id SET DEFAULT nextval('candidato_vaga_match_id_seq'::regclass);
 
 
 --
@@ -298,7 +302,7 @@ SELECT pg_catalog.setval('candidato_id_seq', 22, true);
 -- Name: candidato_vaga_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('candidato_vaga_id_seq', 1, false);
+SELECT pg_catalog.setval('candidato_vaga_match_id_seq', 1, false);
 
 
 --
@@ -349,8 +353,8 @@ ALTER TABLE ONLY candidato
 -- Name: candidato_vaga candidato_vaga_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY candidato_vaga
-    ADD CONSTRAINT candidato_vaga_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY candidato_vaga_match
+    ADD CONSTRAINT candidato_vaga_match_pkey PRIMARY KEY (id);
 
 
 --
@@ -405,16 +409,16 @@ ALTER TABLE ONLY candidato_competencia
 -- Name: candidato_vaga candidato_vaga_id_candidato_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY candidato_vaga
-    ADD CONSTRAINT candidato_vaga_id_candidato_fkey FOREIGN KEY (id_candidato) REFERENCES candidato(id);
+ALTER TABLE ONLY candidato_vaga_match
+    ADD CONSTRAINT candidato_vaga_match_id_candidato_fkey FOREIGN KEY (id_candidato) REFERENCES candidato(id);
 
 
 --
 -- Name: candidato_vaga candidato_vaga_id_vafa_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY candidato_vaga
-    ADD CONSTRAINT candidato_vaga_id_vafa_fkey FOREIGN KEY (id_vafa) REFERENCES vaga(id);
+ALTER TABLE ONLY candidato_vaga_match
+    ADD CONSTRAINT candidato_vaga_match_id_vaga_fkey FOREIGN KEY (id_vaga) REFERENCES vaga(id);
 
 
 --
