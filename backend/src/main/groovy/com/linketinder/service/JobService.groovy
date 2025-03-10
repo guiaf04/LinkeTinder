@@ -14,8 +14,8 @@ class JobService {
     JobRepository jobRepository
 
     Job addJob(Job job){
-        jobRepository.findById(job.getId()).orElseThrow(
-                ()  ->  new DuplicateEntity("Bad request on job body!")
+        jobRepository.findById(job.getId()).ifPresent (
+            () -> { throw new DuplicateEntity("Bad request on job body!") }
         )
 
         return jobRepository.save(job)

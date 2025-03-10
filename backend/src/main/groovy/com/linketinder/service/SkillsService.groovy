@@ -14,9 +14,9 @@ class SkillsService {
     SkillRepository skillRepository
 
     Skill addSkill(Skill skill){
-        if (skillRepository.findByName(skill.getName())){
-            throw new DuplicateEntity("There is another skill with this name!")
-        }
+        skillRepository.findByName(skill.getName()).ifPresent (
+                () -> { throw new DuplicateEntity("There is another skill with this name!") }
+        )
 
         return skillRepository.save(skill)
     }
