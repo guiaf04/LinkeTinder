@@ -4,14 +4,12 @@ import com.linketinder.dto.CandidateDTO
 import com.linketinder.exception.DuplicateEntity
 import com.linketinder.exception.EntityNotFound
 import com.linketinder.model.Candidate
-import com.linketinder.model.Skill
+import com.linketinder.repository.CandidateRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import com.linketinder.repository.CandidateRepository
 
-import java.sql.SQLException
-import static com.linketinder.mapper.ObjectMapper.parseObject
 import static com.linketinder.mapper.ObjectMapper.parseListObject
+import static com.linketinder.mapper.ObjectMapper.parseObject
 
 @Service
 class CandidateService {
@@ -58,14 +56,4 @@ class CandidateService {
         candidateRepository.delete(candidato)
     }
 
-    boolean addSkills(List<Skill> competencias, int candidatoID){
-        try {
-            competencias.forEach {
-                candidateRepository.insertSkill((Skill) it, candidatoID)
-            }
-            return true
-        }catch (SQLException e){
-            return false
-        }
-    }
 }
