@@ -5,7 +5,6 @@ import com.linketinder.exception.DuplicateEntity
 import com.linketinder.exception.EntityNotFound
 import com.linketinder.model.Candidate
 import com.linketinder.repository.CandidateRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 import static com.linketinder.mapper.ObjectMapper.parseListObject
@@ -14,8 +13,11 @@ import static com.linketinder.mapper.ObjectMapper.parseObject
 @Service
 class CandidateService {
 
-    @Autowired
     CandidateRepository candidateRepository
+
+    CandidateService(CandidateRepository candidateRepository){
+        this.candidateRepository = candidateRepository
+    }
 
     CandidateDTO addCandidate(Candidate candidato){
         if (candidateRepository.getElementByCpf(candidato.getCpf())){
