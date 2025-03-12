@@ -42,4 +42,13 @@ class CustomEntityResponseHandler extends ResponseEntityExceptionHandler{
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST)
     }
 
+    @ExceptionHandler(UnauthorizedOperation.class)
+    final ResponseEntity<ExceptionResponse> handleUnauthorizedOperationException(Exception exception, WebRequest request){
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                exception.getMessage(),
+                request.getDescription(false)
+        )
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED)
+    }
 }
