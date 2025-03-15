@@ -4,19 +4,21 @@ import com.linketinder.exception.DuplicateEntity
 import com.linketinder.exception.EntityNotFound
 import com.linketinder.model.Skill
 import com.linketinder.repository.SkillRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class SkillsService {
 
-    @Autowired
     SkillRepository skillRepository
 
+    SkillsService(SkillRepository skillRepository) {
+        this.skillRepository = skillRepository
+    }
+
     Skill addSkill(Skill skill){
-        skillRepository.findByName(skill.getName()).ifPresent (
-                () -> { throw new DuplicateEntity("There is another skill with this name!") }
-        )
+        if (skillRepository.findByName(skill.getName())) {
+            throw new DuplicateEntity("There is another skill with this name!")
+        }
 
         return skillRepository.save(skill)
     }

@@ -4,19 +4,26 @@ import com.linketinder.exception.DuplicateEntity
 import com.linketinder.exception.EntityNotFound
 import com.linketinder.model.Job
 import com.linketinder.repository.JobRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class JobService {
 
-    @Autowired
     JobRepository jobRepository
 
+    JobService(JobRepository jobRepository) {
+        this.jobRepository = jobRepository
+    }
+
     Job addJob(Job job){
-        jobRepository.findById(job.getId()).ifPresent (
-            () -> { throw new DuplicateEntity("Bad request on job body!") }
-        )
+        if (jobRepository.existsByNameAndDescriptionAndIdEmployeeAndLocal(
+                job.name,
+                job.description,
+                job.idEmployee,
+                job.local
+        )) {
+            throw new DuplicateEntity("Job with the same name, description, and company already exists!")
+        }
 
         return jobRepository.save(job)
     }
