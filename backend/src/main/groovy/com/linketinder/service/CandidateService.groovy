@@ -1,22 +1,33 @@
 package com.linketinder.service
 
 import com.linketinder.dto.CandidateDTO
+import com.linketinder.dto.UnmatchedCandidateDTO
 import com.linketinder.exception.DuplicateEntity
 import com.linketinder.exception.EntityNotFound
 import com.linketinder.model.Candidate
 import com.linketinder.repository.CandidateRepository
+import com.linketinder.repository.CandidateSkillRepository
+import com.linketinder.repository.MatchRepository
 import org.springframework.stereotype.Service
 
-import static com.linketinder.mapper.ObjectMapper.parseListObject
 import static com.linketinder.mapper.ObjectMapper.parseObject
 
 @Service
 class CandidateService {
 
     CandidateRepository candidateRepository
+    MatchRepository matchRepository
+    CandidateSkillRepository candidateSkillRepository
 
-    CandidateService(CandidateRepository candidateRepository){
+    CandidateService(
+            CandidateRepository candidateRepository,
+            MatchRepository matchRepository,
+            CandidateSkillRepository candidateSkillRepository
+    )
+    {
         this.candidateRepository = candidateRepository
+        this.matchRepository = matchRepository
+        this.candidateSkillRepository =  candidateSkillRepository
     }
 
     CandidateDTO addCandidate(Candidate candidato){
@@ -27,8 +38,24 @@ class CandidateService {
         return parseObject(candidateRepository.save(candidato), CandidateDTO.class)
     }
 
-    List<CandidateDTO> listCandidates(){
-        return parseListObject(candidateRepository.findAll(), CandidateDTO.class)
+    List<UnmatchedCandidateDTO> listCandidates(Long employeeId){
+        List<Candidate> candidates = candidateRepository.findAll()
+        List<UnmatchedCandidateDTO> candidatesDTOS = new ArrayList<>()
+
+        candidates.each { candidate ->
+            UnmatchedCandidateDTO candidateDTO
+
+            if (matchRepository.existsByCandidateIdAndEmployeeId(candidate.id, employeeId)) {
+                candidateDTO = parseObject(candidate, CandidateDTO.class)
+            }else{
+                candidateDTO = parseObject(candidate, UnmatchedCandidateDTO.class)
+            }
+
+            candidateDTO.skills = candidateSkillRepository.findAllSkillByCandidateId(candidate.id)
+            candidatesDTOS.add(candidateDTO)
+        }
+
+        return candidatesDTOS
     }
 
     CandidateDTO editCandidate(Candidate candidato){

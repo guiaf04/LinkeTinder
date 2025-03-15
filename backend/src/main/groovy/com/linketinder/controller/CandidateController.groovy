@@ -1,31 +1,32 @@
 package com.linketinder.controller
 
 import com.linketinder.dto.CandidateDTO
+import com.linketinder.dto.UnmatchedCandidateDTO
 import com.linketinder.model.Candidate
-import org.springframework.beans.factory.annotation.Autowired
+import com.linketinder.service.CandidateService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import com.linketinder.service.CandidateService
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/candidates")
 class CandidateController {
 
-    @Autowired
     CandidateService candidateService
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<CandidateDTO> findAll()  {
-        return candidateService.listCandidates()
+    CandidateController(CandidateService candidateService) {
+        this.candidateService = candidateService
+    }
+
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    List<UnmatchedCandidateDTO> findAll(@RequestBody(required = false) Long employeeId) {
+        if (employeeId == null) {
+            employeeId = 0L
+        }
+        return candidateService.listCandidates(employeeId)
     }
 
     @PostMapping(
