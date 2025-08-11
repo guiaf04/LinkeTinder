@@ -1,0 +1,272 @@
+<!-- Enhanced Login Component -->
+<div class="login-container">
+  <div class="login-form-wrapper glass">
+    <!-- Header -->
+    <div class="login-header">
+      <h1 class="brand-title">
+        <span class="gradient-primary">LinkeTinder</span>
+      </h1>
+      <p class="subtitle">Conecte-se à sua carreira dos sonhos</p>
+    </div>
+
+    <!-- Admin Credentials Info -->
+    <div class="admin-credentials-info">
+      <div class="info-card">
+        <div class="info-header">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <h3>Credenciais de Teste</h3>
+        </div>
+        <div class="credentials-grid">
+          <div class="credential-item">
+            <h4>👨‍💼 Candidato Admin</h4>
+            <p><strong>Email:</strong> admin&#64;candidate.com</p>
+            <p><strong>Senha:</strong> admin123</p>
+          </div>
+          <div class="credential-item">
+            <h4>🏢 Empresa Admin</h4>
+            <p><strong>Email:</strong> admin&#64;company.com</p>
+            <p><strong>Senha:</strong> admin123</p>
+          </div>
+        </div>
+        <p class="info-note">
+          <mat-icon>info</mat-icon>
+          Os formulários já estão preenchidos com essas credenciais
+        </p>
+      </div>
+    </div>
+
+    <!-- User Type Selection -->
+    <div class="user-type-selector" *ngIf="!selectedUserType">
+      <h2>Como você quer acessar?</h2>
+      <div class="type-cards">
+        <div class="type-card candidate-card" (click)="selectUserType('candidate')">
+          <div class="type-icon">
+            <mat-icon>person</mat-icon>
+          </div>
+          <h3>Sou Candidato</h3>
+          <p>Encontre vagas que combinam com seu perfil profissional</p>
+          <ul class="features-list">
+            <li>Match com vagas personalizadas</li>
+            <li>Visualize empresas e culturas</li>
+            <li>Aplicação anônima inicial</li>
+          </ul>
+          <div class="card-action">
+            <mat-icon>arrow_forward</mat-icon>
+          </div>
+        </div>
+        
+        <div class="type-card company-card" (click)="selectUserType('company')">
+          <div class="type-icon">
+            <mat-icon>business</mat-icon>
+          </div>
+          <h3>Sou Empresa</h3>
+          <p>Encontre talentos qualificados para suas vagas</p>
+          <ul class="features-list">
+            <li>Avalie candidatos por competências</li>
+            <li>Match baseado em habilidades</li>
+            <li>Processo de seleção eficiente</li>
+          </ul>
+          <div class="card-action">
+            <mat-icon>arrow_forward</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Forms -->
+    <div class="login-forms" *ngIf="selectedUserType">
+      <!-- Back Button -->
+      <button mat-icon-button class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <!-- Candidate Login -->
+      <form *ngIf="selectedUserType === 'candidate'" 
+            [formGroup]="candidateForm" 
+            (ngSubmit)="onCandidateLogin()" 
+            class="login-form candidate-form">
+        
+        <div class="form-header">
+          <div class="user-type-badge candidate-badge">
+            <mat-icon>person</mat-icon>
+            <span>Candidato</span>
+          </div>
+          <h2>Entre na sua conta</h2>
+          <p>Acesse suas oportunidades profissionais</p>
+        </div>
+
+        <div class="form-fields">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>E-mail</mat-label>
+            <input matInput 
+                   type="email" 
+                   formControlName="email"
+                   placeholder="seu@email.com">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="candidateForm.get('email')?.hasError('required')">
+              E-mail é obrigatório
+            </mat-error>
+            <mat-error *ngIf="candidateForm.get('email')?.hasError('email')">
+              E-mail inválido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha</mat-label>
+            <input matInput 
+                   [type]="hidePassword ? 'password' : 'text'"
+                   formControlName="password">
+            <button mat-icon-button 
+                    matSuffix 
+                    type="button"
+                    (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="candidateForm.get('password')?.hasError('required')">
+              Senha é obrigatória
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-options">
+            <mat-checkbox formControlName="rememberMe" color="primary">
+              Lembrar de mim
+            </mat-checkbox>
+            <a routerLink="/auth/forgot-password" class="forgot-link">
+              Esqueci minha senha
+            </a>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button 
+                  type="submit"
+                  class="login-btn candidate-btn"
+                  [disabled]="candidateForm.invalid || isLoading">
+            <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+            <span *ngIf="!isLoading">Entrar como Candidato</span>
+          </button>
+
+          <div class="social-login">
+            <p>ou entre com</p>
+            <div class="social-buttons">
+              <button mat-stroked-button type="button" class="social-btn google-btn" (click)="loginWithGoogle()">
+                <mat-icon>account_circle</mat-icon>
+                Google
+              </button>
+              <button mat-stroked-button type="button" class="social-btn linkedin-btn" (click)="loginWithLinkedIn()">
+                <mat-icon>work</mat-icon>
+                LinkedIn
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Company Login -->
+      <form *ngIf="selectedUserType === 'company'" 
+            [formGroup]="companyForm" 
+            (ngSubmit)="onCompanyLogin()" 
+            class="login-form company-form">
+        
+        <div class="form-header">
+          <div class="user-type-badge company-badge">
+            <mat-icon>business</mat-icon>
+            <span>Empresa</span>
+          </div>
+          <h2>Acesso Empresarial</h2>
+          <p>Gerencie suas vagas e encontre talentos</p>
+        </div>
+
+        <div class="form-fields">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>E-mail corporativo</mat-label>
+            <input matInput 
+                   type="email" 
+                   formControlName="email"
+                   placeholder="contato@empresa.com">
+            <mat-icon matSuffix>business</mat-icon>
+            <mat-error *ngIf="companyForm.get('email')?.hasError('required')">
+              E-mail é obrigatório
+            </mat-error>
+            <mat-error *ngIf="companyForm.get('email')?.hasError('email')">
+              E-mail inválido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha</mat-label>
+            <input matInput 
+                   [type]="hidePassword ? 'password' : 'text'"
+                   formControlName="password">
+            <button mat-icon-button 
+                    matSuffix 
+                    type="button"
+                    (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="companyForm.get('password')?.hasError('required')">
+              Senha é obrigatória
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-options">
+            <mat-checkbox formControlName="rememberMe" color="primary">
+              Manter conectado
+            </mat-checkbox>
+            <a routerLink="/auth/forgot-password" class="forgot-link">
+              Esqueci minha senha
+            </a>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button 
+                  type="submit"
+                  class="login-btn company-btn"
+                  [disabled]="companyForm.invalid || isLoading">
+            <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+            <span *ngIf="!isLoading">Acessar Plataforma</span>
+          </button>
+
+          <div class="company-features">
+            <div class="feature-item">
+              <mat-icon>analytics</mat-icon>
+              <span>Dashboard de candidatos</span>
+            </div>
+            <div class="feature-item">
+              <mat-icon>people</mat-icon>
+              <span>Gestão de vagas</span>
+            </div>
+            <div class="feature-item">
+              <mat-icon>trending_up</mat-icon>
+              <span>Métricas de recrutamento</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p *ngIf="!selectedUserType">
+        Novo na plataforma? 
+        <a routerLink="/auth/register" class="register-link">Criar conta</a>
+      </p>
+      <p *ngIf="selectedUserType">
+        Não tem conta como {{ selectedUserType === 'candidate' ? 'candidato' : 'empresa' }}? 
+        <a [routerLink]="'/auth/register'" 
+           [queryParams]="{type: selectedUserType}" 
+           class="register-link">
+          Criar conta
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="bg-elements">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+  </div>
+</div>

@@ -1,0 +1,153 @@
+<!-- Login Page -->
+<div class="login-container">
+  <div class="login-background">
+    <!-- Animated background elements -->
+    <div class="bg-gradient"></div>
+    <div class="floating-cards">
+      <div class="card card-1"></div>
+      <div class="card card-2"></div>
+      <div class="card card-3"></div>
+    </div>
+  </div>
+  
+  <div class="login-content">
+    <!-- Brand Header -->
+    <div class="brand-header">
+      <h1 class="brand-title">
+        <span class="gradient-text">LinkeTinder</span>
+      </h1>
+      <p class="brand-subtitle">
+        Conecte-se profissionalmente de forma inovadora
+      </p>
+    </div>
+    
+    <!-- User Type Toggle -->
+    <div class="user-type-toggle">
+      <button 
+        type="button"
+        class="toggle-btn"
+        [class.active]="userType === 'candidate'"
+        (click)="userType = 'candidate'">
+        <mat-icon>person</mat-icon>
+        <span>Candidato</span>
+      </button>
+      <button 
+        type="button"
+        class="toggle-btn"
+        [class.active]="userType === 'company'"
+        (click)="userType = 'company'">
+        <mat-icon>business</mat-icon>
+        <span>Empresa</span>
+      </button>
+    </div>
+    
+    <!-- Login Form -->
+    <mat-card class="login-card glass">
+      <mat-card-header>
+        <mat-card-title>
+          Entrar como {{ userType === 'candidate' ? 'Candidato' : 'Empresa' }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ userType === 'candidate' 
+            ? 'Encontre oportunidades que combinam com você' 
+            : 'Descubra talentos de forma inovadora' 
+          }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <!-- Social Login -->
+        <div class="social-login">
+          <button mat-button 
+                  type="button"
+                  class="social-btn google-btn"
+                  (click)="loginWithGoogle()">
+            <img src="/assets/icons/google.svg" alt="Google" class="social-icon">
+            <span>Continuar com Google</span>
+          </button>
+          
+          <button mat-button 
+                  type="button"
+                  class="social-btn linkedin-btn"
+                  (click)="loginWithLinkedIn()">
+            <img src="/assets/icons/linkedin.svg" alt="LinkedIn" class="social-icon">
+            <span>Continuar com LinkedIn</span>
+          </button>
+        </div>
+        
+        <div class="divider">
+          <mat-divider></mat-divider>
+          <span class="divider-text">ou</span>
+          <mat-divider></mat-divider>
+        </div>
+        
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Email Field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput 
+                   type="email"
+                   formControlName="email"
+                   placeholder="seu@email.com"
+                   autocomplete="email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="getFieldError('email')">
+              {{ getFieldError('email') }}
+            </mat-error>
+          </mat-form-field>
+          
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha</mat-label>
+            <input matInput 
+                   [type]="hidePassword ? 'password' : 'text'"
+                   formControlName="password"
+                   placeholder="Sua senha"
+                   autocomplete="current-password">
+            <button mat-icon-button 
+                    matSuffix 
+                    type="button"
+                    (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="getFieldError('password')">
+              {{ getFieldError('password') }}
+            </mat-error>
+          </mat-form-field>
+          
+          <!-- Remember Me & Forgot Password -->
+          <div class="form-options">
+            <mat-checkbox formControlName="rememberMe" color="primary">
+              Lembrar de mim
+            </mat-checkbox>
+            
+            <a routerLink="/auth/forgot-password" class="forgot-link">
+              Esqueceu a senha?
+            </a>
+          </div>
+          
+          <!-- Submit Button -->
+          <button mat-raised-button 
+                  type="submit"
+                  class="submit-btn gradient-button"
+                  [disabled]="!loginForm.valid || isLoading"
+                  [class.loading]="isLoading">
+            <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+            <span *ngIf="!isLoading">Entrar</span>
+            <span *ngIf="isLoading">Entrando...</span>
+          </button>
+        </form>
+      </mat-card-content>
+      
+      <mat-card-actions class="card-actions">
+        <p class="signup-prompt">
+          Não tem uma conta?
+          <a routerLink="/auth/register" class="signup-link">Cadastre-se</a>
+        </p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
