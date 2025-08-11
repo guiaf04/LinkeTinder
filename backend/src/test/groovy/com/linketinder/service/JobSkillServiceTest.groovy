@@ -1,5 +1,6 @@
 package com.linketinder.service
 
+import com.linketinder.exception.DuplicateEntity
 import com.linketinder.exception.EntityNotFound
 import com.linketinder.model.Job
 import com.linketinder.model.JobSkill
@@ -101,6 +102,6 @@ class JobSkillServiceTest extends Specification {
         jobSkillService.addJobSkills(jobId, [skill])
 
         then:
-        thrown(EntityNotFound)
+        thrown(DuplicateEntity)
     }
 }
