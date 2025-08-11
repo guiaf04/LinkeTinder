@@ -1,0 +1,149 @@
+// Discovery Component - Optimized
+.discovery-container {
+  min-height: 100vh; display: flex; flex-direction: column;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(249, 115, 22, 0.05) 100%);
+  position: relative; overflow: hidden;
+}
+
+.discovery-header {
+  display: flex; justify-content: space-between; align-items: center; padding: 24px 32px;
+  background: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  .page-title { margin: 0; font-size: 1.5rem; font-weight: 700; color: #111827; }
+  
+  .stats { display: flex; gap: 24px; }
+  .stat-item { display: flex; flex-direction: column; align-items: center; }
+  .stat-number { font-size: 1.25rem; font-weight: 700; color: #3b82f6; }
+  .stat-label { font-size: 0.75rem; color: #6b7280; }
+}
+
+.card-stack-container {
+  flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px;
+  position: relative; overflow: visible;
+}
+
+.job-card, .candidate-card {
+  width: 350px; height: 500px; position: absolute; background: white;
+  border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  cursor: grab; transition: transform 0.3s ease; overflow: hidden;
+  
+  &.active { z-index: 10; }
+  &.dragging { cursor: grabbing; z-index: 20; transform: scale(1.05); }
+  &.swiping-left { transform: translateX(-120px) rotate(-20deg); opacity: 0.3; }
+  &.swiping-right { transform: translateX(120px) rotate(20deg); opacity: 0.3; }
+  
+  .card-header {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0); padding: 30px 20px 20px;
+    text-align: center; border-bottom: 1px solid #e2e8f0;
+    
+    .title { font-size: 1.4rem; font-weight: 700; color: #1e293b; margin: 0 0 8px 0; }
+    .subtitle { font-size: 1rem; color: #64748b; margin: 0; }
+  }
+  
+  .card-content {
+    padding: 20px; height: calc(100% - 140px); overflow-y: auto;
+    
+    .content-section {
+      margin-bottom: 20px;
+      
+      h4 { font-size: 0.9rem; font-weight: 600; color: #1e293b; margin: 0 0 10px 0; text-transform: uppercase; }
+      p { color: #64748b; line-height: 1.5; margin: 0; font-size: 0.9rem; }
+    }
+    
+    .skills-tags, .requirements-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      
+      .tag {
+        background: #f1f5f9; color: #475569; padding: 4px 8px;
+        border-radius: 12px; font-size: 0.75rem; font-weight: 500;
+      }
+    }
+  }
+}
+
+.action-buttons {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 20px; z-index: 15;
+  
+  .action-btn {
+    width: 56px; height: 56px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; border: none; cursor: pointer;
+    transition: all 0.2s ease; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    
+    mat-icon { font-size: 24px; }
+    
+    &.pass-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+      &:hover { transform: scale(1.1); box-shadow: 0 12px 25px rgba(239, 68, 68, 0.3); }
+    }
+    
+    &.like-btn {
+      background: linear-gradient(135deg, #10b981, #059669); color: white;
+      &:hover { transform: scale(1.1); box-shadow: 0 12px 25px rgba(16, 185, 129, 0.3); }
+    }
+  }
+}
+
+.no-more-cards {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 300px; text-align: center; color: #64748b;
+  
+  mat-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.5; }
+  h3 { font-size: 1.5rem; margin: 0 0 10px 0; }
+  p { margin: 0 0 30px 0; }
+  
+  .refresh-btn {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white;
+    border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;
+    font-weight: 600; transition: transform 0.2s ease;
+    &:hover { transform: translateY(-1px); }
+  }
+}
+
+.loading-container {
+  display: flex; justify-content: center; align-items: center; height: 300px;
+  mat-spinner { margin-bottom: 20px; }
+}
+
+// Match notification
+.match-notification {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: white; padding: 40px; border-radius: 20px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2); z-index: 1000; min-width: 300px;
+  
+  mat-icon { font-size: 60px; color: #10b981; margin-bottom: 20px; }
+  h3 { font-size: 1.5rem; color: #1e293b; margin: 0 0 10px 0; }
+  p { color: #64748b; margin: 0 0 30px 0; }
+  
+  .notification-actions {
+    display: flex; gap: 15px; justify-content: center;
+    
+    button {
+      padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;
+      font-weight: 600; transition: all 0.2s ease;
+    }
+    
+    .message-btn {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white;
+      &:hover { transform: translateY(-1px); }
+    }
+    
+    .continue-btn {
+      background: #f1f5f9; color: #64748b;
+      &:hover { background: #e2e8f0; }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .discovery-header { padding: 16px 20px; .stats { gap: 16px; } }
+  .card-stack-container { padding: 20px 16px; }
+  .job-card, .candidate-card { width: 300px; height: 450px; }
+  .action-buttons { bottom: 15px; gap: 15px; .action-btn { width: 50px; height: 50px; } }
+}
+
+@media (max-width: 480px) {
+  .job-card, .candidate-card { width: 280px; height: 400px; }
+  .match-notification { margin: 20px; min-width: auto; width: calc(100% - 40px); }
+}

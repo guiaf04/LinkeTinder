@@ -1,0 +1,197 @@
+<!-- Discovery/Swipe Interface -->
+<div class="discovery-container">
+  <!-- Header Stats -->
+  <div class="discovery-header">
+    <h1 class="page-title">Descobrir</h1>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-number">{{ matches.length - currentCard }}</span>
+        <span class="stat-label">Restantes</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{{ currentCard }}</span>
+        <span class="stat-label">Visualizados</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Card Stack Container -->
+  <div class="card-stack-container" #cardStack>
+    <!-- No More Matches -->
+    <div class="no-matches" *ngIf="!currentMatch">
+      <div class="no-matches-content">
+        <mat-icon class="no-matches-icon">favorite_border</mat-icon>
+        <h2>Acabaram as opções!</h2>
+        <p>Que tal ajustar seus filtros ou voltar mais tarde?</p>
+        <button mat-raised-button color="primary" class="refresh-btn" (click)="refreshMatches()">
+          <mat-icon>refresh</mat-icon>
+          Buscar Novamente
+        </button>
+      </div>
+    </div>
+    
+    <!-- Current Match Card -->
+    <div class="match-card-wrapper" *ngIf="currentMatch">
+      <mat-card class="match-card glass" 
+                [class.job-card]="currentMatch.type === 'job'"
+                [class.candidate-card]="currentMatch.type === 'candidate'"
+                (touchstart)="onTouchStart($event)"
+                (touchmove)="onTouchMove($event)"
+                (touchend)="onTouchEnd($event)"
+                (mousedown)="onMouseDown($event)">
+        
+        <!-- Swipe Action Indicators -->
+        <div class="swipe-indicator swipe-left">
+          <mat-icon>close</mat-icon>
+          <span>NOPE</span>
+        </div>
+        <div class="swipe-indicator swipe-right">
+          <mat-icon>favorite</mat-icon>
+          <span>LIKE</span>
+        </div>
+        <div class="swipe-indicator swipe-up">
+          <mat-icon>star</mat-icon>
+          <span>SUPER LIKE</span>
+        </div>
+        
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="type-indicator">
+            <mat-icon *ngIf="currentMatch.type === 'job'">work</mat-icon>
+            <mat-icon *ngIf="currentMatch.type === 'candidate'">person</mat-icon>
+            <span>{{ currentMatch.type === 'job' ? 'Vaga' : 'Candidato' }}</span>
+          </div>
+          
+          <div class="match-percentage">
+            <div class="percentage-circle">
+              <span>{{ currentMatch.matchPercentage }}%</span>
+            </div>
+            <span class="match-label">Match</span>
+          </div>
+        </div>
+        
+        <!-- Card Content -->
+        <div class="card-content">
+          <!-- Profile Image / Company Logo -->
+          <div class="profile-section">
+            <div class="profile-image" 
+                 [style.background-image]="currentMatch.avatar ? 'url(' + currentMatch.avatar + ')' : 'none'">
+              <mat-icon *ngIf="!currentMatch.avatar && currentMatch.type === 'job'">business</mat-icon>
+              <mat-icon *ngIf="!currentMatch.avatar && currentMatch.type === 'candidate'">person</mat-icon>
+            </div>
+          </div>
+          
+          <!-- Main Info -->
+          <div class="main-info">
+            <h2 class="title">{{ currentMatch.title }}</h2>
+            <div class="subtitle" *ngIf="currentMatch.company">
+              <mat-icon>business</mat-icon>
+              <span>{{ currentMatch.company }}</span>
+            </div>
+            <div class="location">
+              <mat-icon>place</mat-icon>
+              <span>{{ currentMatch.location }}</span>
+            </div>
+            <div class="experience" *ngIf="currentMatch.experience">
+              <mat-icon>work_history</mat-icon>
+              <span>{{ currentMatch.experience }} de experiência</span>
+            </div>
+            <div class="salary" *ngIf="currentMatch.salary">
+              <mat-icon>payments</mat-icon>
+              <span>{{ currentMatch.salary }}</span>
+            </div>
+          </div>
+          
+          <!-- Description -->
+          <div class="description">
+            <p>{{ currentMatch.description }}</p>
+          </div>
+          
+          <!-- Skills -->
+          <div class="skills-section" *ngIf="currentMatch.skills.length > 0">
+            <h3>{{ currentMatch.type === 'job' ? 'Habilidades Requeridas' : 'Habilidades' }}</h3>
+            <div class="skills-list">
+              <mat-chip *ngFor="let skill of currentMatch.skills"
+                       [color]="getSkillColor(skill)"
+                       class="skill-chip">
+                {{ skill }}
+              </mat-chip>
+            </div>
+          </div>
+          
+          <!-- Match Progress -->
+          <div class="match-progress">
+            <label>Compatibilidade</label>
+            <mat-progress-bar 
+              mode="determinate" 
+              [value]="currentMatch.matchPercentage"
+              [color]="currentMatch.matchPercentage > 80 ? 'primary' : 
+                      currentMatch.matchPercentage > 60 ? 'accent' : 'warn'">
+            </mat-progress-bar>
+          </div>
+        </div>
+      </mat-card>
+      
+      <!-- Next Cards Preview -->
+      <mat-card class="preview-card preview-1" *ngIf="matches[currentCard + 1]">
+        <div class="preview-content">
+          <h3>{{ matches[currentCard + 1].title }}</h3>
+          <p>{{ matches[currentCard + 1].location }}</p>
+        </div>
+      </mat-card>
+      
+      <mat-card class="preview-card preview-2" *ngIf="matches[currentCard + 2]">
+        <div class="preview-content">
+          <h3>{{ matches[currentCard + 2].title }}</h3>
+          <p>{{ matches[currentCard + 2].location }}</p>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  
+  <!-- Action Buttons -->
+  <div class="action-buttons" *ngIf="currentMatch">
+    <!-- Reject Button -->
+    <button mat-fab 
+            class="action-btn reject-btn"
+            (click)="onSwipeLeft()"
+            [disabled]="isAnimating"
+            matTooltip="Não Interessado">
+      <mat-icon>close</mat-icon>
+    </button>
+    
+    <!-- Super Like Button -->
+    <button mat-fab 
+            class="action-btn super-like-btn"
+            (click)="onSuperLike()"
+            [disabled]="isAnimating"
+            matTooltip="Super Interesse">
+      <mat-icon>star</mat-icon>
+    </button>
+    
+    <!-- Like Button -->
+    <button mat-fab 
+            class="action-btn like-btn"
+            (click)="onSwipeRight()"
+            [disabled]="isAnimating"
+            matTooltip="Interessado">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </div>
+  
+  <!-- Swipe Instructions -->
+  <div class="swipe-instructions" *ngIf="currentCard === 0">
+    <div class="instruction-item">
+      <mat-icon class="swipe-left">keyboard_arrow_left</mat-icon>
+      <span>Deslize para a esquerda para rejeitar</span>
+    </div>
+    <div class="instruction-item">
+      <mat-icon class="swipe-up">keyboard_arrow_up</mat-icon>
+      <span>Deslize para cima para super curtir</span>
+    </div>
+    <div class="instruction-item">
+      <mat-icon class="swipe-right">keyboard_arrow_right</mat-icon>
+      <span>Deslize para a direita para aprovar</span>
+    </div>
+  </div>
+</div>

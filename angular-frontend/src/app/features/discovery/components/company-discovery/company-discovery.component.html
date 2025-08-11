@@ -1,0 +1,249 @@
+<div class="company-discovery">
+  <div class="discovery-header">
+    <div class="header-content">
+      <h1>Encontre Talentos</h1>
+      <p>Descubra candidatos que combinam com suas vagas</p>
+    </div>
+    <button 
+      mat-icon-button 
+      class="refresh-btn"
+      (click)="refreshCandidates()"
+      matTooltip="Atualizar candidatos">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-container" #cardStack>
+    <div 
+      *ngIf="currentMatch" 
+      class="candidate-card"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd($event)"
+      (mousedown)="onMouseDown($event)">
+      
+      <!-- Header do Candidato -->
+      <div class="candidate-header">
+        <div class="candidate-info">
+          <div class="candidate-avatar">
+            <mat-icon class="avatar-icon">person</mat-icon>
+          </div>
+          <div class="candidate-details">
+            <h2 class="candidate-name">{{ currentMatch.candidate.firstName }} {{ currentMatch.candidate.lastName[0] }}.</h2>
+            <h3 class="candidate-id">ID: {{ currentMatch.candidate.anonymousId }}</h3>
+            <div class="candidate-meta">
+              <span class="availability">
+                <mat-icon>{{ getAvailabilityIcon(currentMatch.candidate.availability) }}</mat-icon>
+                {{ currentMatch.candidate.availability }}
+              </span>
+              <span class="work-preference">
+                <mat-icon>{{ getWorkTypeIcon(currentMatch.candidate.preferredWorkType) }}</mat-icon>
+                {{ currentMatch.candidate.preferredWorkType }}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="match-score">
+          <div class="score-circle">
+            <span class="percentage">{{ currentMatch.matchPercentage }}%</span>
+            <small>Match</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expectativa Salarial -->
+      <div class="salary-section" *ngIf="currentMatch.candidate.salaryExpectation">
+        <div class="salary-card">
+          <mat-icon>payments</mat-icon>
+          <div class="salary-info">
+            <span class="salary-label">Expectativa Salarial</span>
+            <span class="salary-value">{{ formatSalary(currentMatch.candidate.salaryExpectation.min, currentMatch.candidate.salaryExpectation.max) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumo Profissional -->
+      <div class="professional-summary">
+        <h4>Resumo Profissional</h4>
+        <p>{{ currentMatch.candidate.professionalSummary }}</p>
+      </div>
+
+      <!-- Habilidades -->
+      <div class="skills-section">
+        <h4>
+          <mat-icon>code</mat-icon>
+          Habilidades
+        </h4>
+        <div class="skills-grid">
+          <div 
+            *ngFor="let skill of currentMatch.candidate.skills"
+            class="skill-item"
+            [style.border-left-color]="getSkillLevelColor(skill.level)">
+            <div class="skill-header">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="skill-level" [style.color]="getSkillLevelColor(skill.level)">
+                {{ getSkillLevelText(skill.level) }}
+              </span>
+            </div>
+            <div class="skill-experience">
+              {{ skill.yearsOfExperience }} {{ skill.yearsOfExperience === 1 ? 'ano' : 'anos' }} de experiência
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experiência Profissional -->
+      <div class="experience-section">
+        <h4>
+          <mat-icon>work_history</mat-icon>
+          Experiência Profissional
+        </h4>
+        <div class="experience-list">
+          <div 
+            *ngFor="let exp of currentMatch.candidate.experience"
+            class="experience-item">
+            <div class="experience-header">
+              <h5 class="experience-title">{{ exp.title }}</h5>
+              <span class="experience-duration">{{ exp.duration }}</span>
+            </div>
+            <div class="experience-company">{{ exp.company }}</div>
+            <div class="experience-description">{{ exp.description }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formação -->
+      <div class="education-section">
+        <h4>
+          <mat-icon>school</mat-icon>
+          Formação
+        </h4>
+        <div class="education-list">
+          <div 
+            *ngFor="let edu of currentMatch.candidate.education"
+            class="education-item">
+            <div class="education-degree">{{ edu.degree }}</div>
+            <div class="education-institution">{{ edu.institution }}</div>
+            <div class="education-year">{{ edu.year }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Idiomas -->
+      <div class="languages-section" *ngIf="currentMatch.candidate.languages?.length">
+        <h4>
+          <mat-icon>translate</mat-icon>
+          Idiomas
+        </h4>
+        <div class="languages-tags">
+          <span 
+            *ngFor="let language of currentMatch.candidate.languages"
+            class="language-tag">
+            {{ language }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Certificações -->
+      <div class="certifications-section" *ngIf="currentMatch.candidate.certifications?.length">
+        <h4>
+          <mat-icon>verified</mat-icon>
+          Certificações
+        </h4>
+        <div class="certifications-list">
+          <div 
+            *ngFor="let cert of currentMatch.candidate.certifications"
+            class="certification-item">
+            <mat-icon>verified_user</mat-icon>
+            <span>{{ cert }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicadores de Ação -->
+      <div class="action-indicators">
+        <div class="indicator reject-indicator">
+          <mat-icon>close</mat-icon>
+          <span>REJEITAR</span>
+        </div>
+        <div class="indicator interest-indicator">
+          <mat-icon>thumb_up</mat-icon>
+          <span>INTERESSE</span>
+        </div>
+        <div class="indicator priority-indicator">
+          <mat-icon>star</mat-icon>
+          <span>PRIORIDADE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado vazio -->
+    <div *ngIf="!currentMatch" class="empty-state">
+      <div class="empty-content">
+        <mat-icon class="empty-icon">person_search</mat-icon>
+        <h3>Todos os candidatos foram visualizados!</h3>
+        <p>Novos talentos aparecerão aqui em breve.</p>
+        <button 
+          mat-raised-button 
+          color="primary"
+          (click)="refreshCandidates()">
+          <mat-icon>refresh</mat-icon>
+          Atualizar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botões de Ação -->
+  <div class="action-buttons" *ngIf="currentMatch">
+    <button 
+      mat-fab 
+      class="action-btn reject-btn"
+      (click)="onReject()"
+      matTooltip="Não se encaixa na vaga"
+      [disabled]="isAnimating">
+      <mat-icon>close</mat-icon>
+    </button>
+    
+    <button 
+      mat-fab 
+      class="action-btn priority-btn"
+      (click)="onPriorityMatch()"
+      matTooltip="Candidato prioritário - interesse especial"
+      [disabled]="isAnimating">
+      <mat-icon>star</mat-icon>
+    </button>
+    
+    <button 
+      mat-fab 
+      class="action-btn interest-btn"
+      (click)="onInterest()"
+      matTooltip="Demonstrar interesse no candidato"
+      [disabled]="isAnimating">
+      <mat-icon>thumb_up</mat-icon>
+    </button>
+  </div>
+
+  <!-- Instruções -->
+  <div class="instructions" *ngIf="currentMatch">
+    <div class="instruction-item">
+      <mat-icon>swipe_left</mat-icon>
+      <span>Deslize para esquerda ou clique em ✕ para rejeitar</span>
+    </div>
+    <div class="instruction-item">
+      <mat-icon>swipe_up</mat-icon>
+      <span>Deslize para cima ou clique em ★ para marcar como prioridade</span>
+    </div>
+    <div class="instruction-item">
+      <mat-icon>swipe_right</mat-icon>
+      <span>Deslize para direita ou clique em 👍 para demonstrar interesse</span>
+    </div>
+  </div>
+
+  <!-- Aviso de Privacidade -->
+  <div class="privacy-notice">
+    <mat-icon>security</mat-icon>
+    <span>Dados pessoais dos candidatos são protegidos durante o processo de matching.</span>
+  </div>
+</div>

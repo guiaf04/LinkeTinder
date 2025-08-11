@@ -1,0 +1,246 @@
+<div class="candidate-discovery">
+  <div class="discovery-header">
+    <div class="header-content">
+      <h1>Descubra Oportunidades</h1>
+      <p>Encontre vagas que combinam com seu perfil</p>
+    </div>
+    <button 
+      mat-icon-button 
+      class="refresh-btn"
+      (click)="refreshMatches()"
+      matTooltip="Atualizar vagas">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-container" #cardStack>
+    <div 
+      *ngIf="currentMatch" 
+      class="match-card"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd($event)"
+      (mousedown)="onMouseDown($event)">
+      
+      <!-- Header da Vaga -->
+      <div class="job-header">
+        <div class="company-info">
+          <div class="company-logo">
+            <!-- Sempre mostra ícone genérico durante discovery (empresa anônima) -->
+            <mat-icon class="company-icon">
+              business
+            </mat-icon>
+          </div>
+          <div class="company-details">
+            <h2 class="job-title">{{ currentMatch.job.title }}</h2>
+            <h3 class="company-name">
+              <!-- Empresa anônima durante discovery -->
+              Empresa Confidencial
+            </h3>
+            <div class="job-meta">
+              <span class="location">
+                <mat-icon>location_on</mat-icon>
+                {{ currentMatch.job.location }}
+              </span>
+              <span class="work-type" [class]="currentMatch.job.workType.toLowerCase()">
+                <mat-icon>work</mat-icon>
+                {{ currentMatch.job.workType }}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="match-score">
+          <div class="score-circle">
+            <span class="percentage">{{ currentMatch.matchPercentage }}%</span>
+            <small>Match</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informações de Salário -->
+      <div class="salary-section" *ngIf="currentMatch.job.salaryRange">
+        <div class="salary-card">
+          <mat-icon>payments</mat-icon>
+          <div class="salary-info">
+            <span class="salary-label">Faixa Salarial</span>
+            <span class="salary-value">{{ formatSalary(currentMatch.job.salaryRange.min, currentMatch.job.salaryRange.max) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Descrição da Vaga -->
+      <div class="job-description">
+        <h4>Sobre a Vaga</h4>
+        <p>{{ currentMatch.job.description }}</p>
+      </div>
+
+      <!-- Requisitos -->
+      <div class="requirements-section">
+        <h4>
+          <mat-icon>checklist</mat-icon>
+          Requisitos
+        </h4>
+        <div class="chips-container">
+          <mat-chip-set>
+            <mat-chip 
+              *ngFor="let requirement of currentMatch.job.requirements"
+              class="requirement-chip">
+              {{ requirement }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+
+      <!-- Responsabilidades -->
+      <div class="responsibilities-section">
+        <h4>
+          <mat-icon>assignment</mat-icon>
+          Responsabilidades
+        </h4>
+        <ul class="responsibilities-list">
+          <li *ngFor="let responsibility of currentMatch.job.responsibilities">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+            {{ responsibility }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Benefícios -->
+      <div class="benefits-section">
+        <h4>
+          <mat-icon>card_giftcard</mat-icon>
+          Benefícios
+        </h4>
+        <div class="benefits-grid">
+          <div 
+            *ngFor="let benefit of currentMatch.job.benefits"
+            class="benefit-item">
+            <mat-icon>{{ getBenefitIcon(benefit) }}</mat-icon>
+            <span>{{ benefit }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cultura da Empresa -->
+      <div class="culture-section">
+        <h4>
+          <mat-icon>groups</mat-icon>
+          Cultura da Empresa
+        </h4>
+        <div class="culture-tags">
+          <span 
+            *ngFor="let value of currentMatch.job.culture"
+            class="culture-tag">
+            {{ value }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Informações da Empresa -->
+      <div class="company-info-section">
+        <div class="company-stats">
+          <div class="stat-item">
+            <mat-icon>business</mat-icon>
+            <div class="stat-content">
+              <span class="stat-label">Tamanho</span>
+              <span class="stat-value">Informação disponível após match</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <mat-icon>category</mat-icon>
+            <div class="stat-content">
+              <span class="stat-label">Setor</span>
+              <span class="stat-value">Informação disponível após match</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <mat-icon>language</mat-icon>
+            <div class="stat-content">
+              <span class="stat-label">Website</span>
+              <span class="stat-value">Disponível após match</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicadores de Ação -->
+      <div class="action-indicators">
+        <div class="indicator reject-indicator">
+          <mat-icon>close</mat-icon>
+          <span>REJEITAR</span>
+        </div>
+        <div class="indicator like-indicator">
+          <mat-icon>favorite</mat-icon>
+          <span>CURTIR</span>
+        </div>
+        <div class="indicator super-indicator">
+          <mat-icon>star</mat-icon>
+          <span>SUPER CURTIDA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado vazio -->
+    <div *ngIf="!currentMatch" class="empty-state">
+      <div class="empty-content">
+        <mat-icon class="empty-icon">work_off</mat-icon>
+        <h3>Todas as vagas foram visualizadas!</h3>
+        <p>Novas oportunidades aparecerão aqui em breve.</p>
+        <button 
+          mat-raised-button 
+          color="primary"
+          (click)="refreshMatches()">
+          <mat-icon>refresh</mat-icon>
+          Atualizar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botões de Ação -->
+  <div class="action-buttons" *ngIf="currentMatch">
+    <button 
+      mat-fab 
+      class="action-btn reject-btn"
+      (click)="onSwipeLeft()"
+      matTooltip="Rejeitar vaga"
+      [disabled]="isAnimating">
+      <mat-icon>close</mat-icon>
+    </button>
+    
+    <button 
+      mat-fab 
+      class="action-btn super-btn"
+      (click)="onSuperLike()"
+      matTooltip="Super curtir - demonstre interesse especial"
+      [disabled]="isAnimating">
+      <mat-icon>star</mat-icon>
+    </button>
+    
+    <button 
+      mat-fab 
+      class="action-btn like-btn"
+      (click)="onSwipeRight()"
+      matTooltip="Curtir vaga"
+      [disabled]="isAnimating">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </div>
+
+  <!-- Instruções -->
+  <div class="instructions" *ngIf="currentMatch">
+    <div class="instruction-item">
+      <mat-icon>swipe_left</mat-icon>
+      <span>Deslize para esquerda ou clique em ✕ para rejeitar</span>
+    </div>
+    <div class="instruction-item">
+      <mat-icon>swipe_up</mat-icon>
+      <span>Deslize para cima ou clique em ★ para super curtir</span>
+    </div>
+    <div class="instruction-item">
+      <mat-icon>swipe_right</mat-icon>
+      <span>Deslize para direita ou clique em ♥ para curtir</span>
+    </div>
+  </div>
+</div>
