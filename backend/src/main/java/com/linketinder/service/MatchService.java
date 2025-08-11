@@ -46,7 +46,12 @@ public class MatchService {
         final Job job = jobRepository.findById(matchDTO.getJobId())
                 .orElseThrow(() -> new EntityNotFound("Job not found"));
 
-        final Match match = new Match(candidate, job, false, false, false);
+        final Match match = new Match();
+        match.setCandidate(candidate);
+        match.setJob(job);
+        match.setCandidateLiked(false);
+        match.setEmployerLiked(false);
+        match.setMatch(false);
 
         return matchRepository.save(match);
     }

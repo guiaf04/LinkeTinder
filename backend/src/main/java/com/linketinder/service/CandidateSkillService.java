@@ -52,7 +52,9 @@ public class CandidateSkillService {
             final Skill skillValidate = skillRepository.findByName(skill.getName())
                     .orElseThrow(() -> new EntityNotFound("Skill not found"));
 
-            final CandidateSkill candidateSkill = new CandidateSkill(candidate, skillValidate);
+            final CandidateSkill candidateSkill = new CandidateSkill();
+            candidateSkill.setCandidate(candidate);
+            candidateSkill.setSkill(skillValidate);
 
             candidateSkillRepository.findByCandidateAndSkill(candidate, skillValidate)
                     .ifPresentOrElse(
