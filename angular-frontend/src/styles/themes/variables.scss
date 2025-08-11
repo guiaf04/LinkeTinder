@@ -1,0 +1,81 @@
+// SCSS Variables for consistent theming
+$primary-blue: #3B82F6;
+$primary-orange: #F97316;
+$gradient-primary: linear-gradient(135deg, $primary-blue 0%, $primary-orange 100%);
+
+$success: #10B981;
+$warning: #F59E0B;
+$error: #EF4444;
+$info: #06B6D4;
+
+$neutral-50: #F9FAFB;
+$neutral-100: #F3F4F6;
+$neutral-200: #E5E7EB;
+$neutral-300: #D1D5DB;
+$neutral-400: #9CA3AF;
+$neutral-500: #6B7280;
+$neutral-600: #4B5563;
+$neutral-700: #374151;
+$neutral-800: #1F2937;
+$neutral-900: #111827;
+
+$glass-bg: rgba(255, 255, 255, 0.1);
+$glass-border: rgba(255, 255, 255, 0.2);
+$backdrop-blur: blur(20px);
+
+$font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-secondary: 'Poppins', sans-serif;
+
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.125rem;
+$text-xl: 1.25rem;
+$text-2xl: 1.5rem;
+$text-3xl: 1.875rem;
+$text-4xl: 2.25rem;
+
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+
+$radius-sm: 0.375rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-xl: 1rem;
+$radius-2xl: 1.5rem;
+$radius-full: 9999px;
+
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+$transition-fast: 150ms ease-out;
+$transition-normal: 300ms ease-out;
+$transition-slow: 500ms ease-out;
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Animation easings
+$ease-in-out-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+$ease-in-cubic: cubic-bezier(0.32, 0, 0.67, 0);
+
+// Swipe animation settings
+$swipe-threshold: 100px;
+$swipe-duration: 300ms;
+$swipe-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+// Card stack settings
+$card-stack-scale: 0.95;
+$card-stack-offset: 10px;
+$card-max-rotation: 20deg;

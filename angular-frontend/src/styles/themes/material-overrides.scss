@@ -1,0 +1,141 @@
+// Material Design Component Overrides
+@import 'variables';
+
+// Button overrides
+.mat-mdc-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button {
+  border-radius: $radius-lg !important;
+  font-family: $font-primary !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  transition: $transition-fast !important;
+  min-width: auto !important;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+}
+
+// Card overrides
+.mat-mdc-card {
+  border-radius: $radius-xl !important;
+  box-shadow: $shadow-lg !important;
+  transition: $transition-normal !important;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-xl;
+  }
+}
+
+// Form field overrides
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    border-radius: $radius-lg !important;
+  }
+  
+  .mat-mdc-form-field-label {
+    font-family: $font-primary !important;
+  }
+  
+  .mat-mdc-input-element {
+    font-family: $font-primary !important;
+  }
+}
+
+// Chip overrides
+.mat-mdc-chip {
+  border-radius: $radius-full !important;
+  font-family: $font-primary !important;
+  font-size: $text-sm !important;
+  transition: $transition-fast !important;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Dialog overrides
+.mat-mdc-dialog-container {
+  border-radius: $radius-2xl !important;
+  box-shadow: $shadow-xl !important;
+}
+
+// Snackbar overrides
+.mat-mdc-snack-bar-container {
+  border-radius: $radius-lg !important;
+  font-family: $font-primary !important;
+}
+
+// Tab overrides
+.mat-mdc-tab-group {
+  .mat-mdc-tab-label {
+    font-family: $font-primary !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+  }
+}
+
+// Toolbar overrides
+.mat-toolbar {
+  font-family: $font-primary !important;
+  backdrop-filter: $backdrop-blur;
+  border-bottom: 1px solid $glass-border;
+}
+
+// Menu overrides
+.mat-mdc-menu-panel {
+  border-radius: $radius-lg !important;
+  box-shadow: $shadow-xl !important;
+  backdrop-filter: $backdrop-blur;
+}
+
+// FAB overrides
+.mat-mdc-fab {
+  box-shadow: $shadow-lg !important;
+  transition: $transition-normal !important;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: $shadow-xl;
+  }
+}
+
+// Progress bar overrides
+.mat-mdc-progress-bar {
+  border-radius: $radius-full !important;
+  
+  .mat-mdc-progress-bar-fill::after {
+    border-radius: $radius-full !important;
+  }
+}
+
+// Slider overrides
+.mat-mdc-slider {
+  .mat-mdc-slider-track-fill {
+    background: $gradient-primary !important;
+  }
+  
+  .mat-mdc-slider-thumb {
+    border: 2px solid white !important;
+    box-shadow: $shadow-md !important;
+  }
+}
+
+// Switch overrides
+.mat-mdc-slide-toggle {
+  .mat-mdc-slide-toggle-thumb {
+    box-shadow: $shadow-sm !important;
+  }
+}
+
+// Tooltip overrides
+.mat-mdc-tooltip {
+  border-radius: $radius-md !important;
+  font-family: $font-primary !important;
+  font-size: $text-sm !important;
+  backdrop-filter: $backdrop-blur;
+}
