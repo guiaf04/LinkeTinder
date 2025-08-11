@@ -1,0 +1,149 @@
+<!-- LinkeTinder Main App Component -->
+<div class="app-container">
+  <!-- Navigation Header -->
+  <header class="app-header glass" *ngIf="shouldShowHeader()">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <a routerLink="/" class="brand-link">
+          <span class="brand-text gradient-primary">LinkeTinder</span>
+        </a>
+      </div>
+      
+      <div class="nav-actions" *ngIf="isAuthenticated">
+        <button mat-icon-button 
+                [matMenuTriggerFor]="notificationMenu"
+                class="notification-btn">
+          <mat-icon>notifications</mat-icon>
+          <span class="notification-badge" *ngIf="notificationCount > 0">
+            {{ notificationCount }}
+          </span>
+        </button>
+        
+        <button mat-icon-button 
+                [matMenuTriggerFor]="userMenu"
+                class="user-menu-btn">
+          <img [src]="currentUser?.avatar || '/assets/default-avatar.svg'" 
+               alt="User Avatar"
+               class="user-avatar">
+        </button>
+      </div>
+      
+      <div class="auth-actions" *ngIf="!isAuthenticated">
+        <button mat-button routerLink="/auth/login" class="login-btn">
+          Entrar
+        </button>
+        <button mat-raised-button 
+                routerLink="/auth/register" 
+                class="gradient-button register-btn">
+          Cadastrar
+        </button>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="app-main" [class.with-header]="shouldShowHeader()">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <!-- Bottom Navigation for Mobile -->
+  <nav class="bottom-nav glass" *ngIf="shouldShowBottomNav()">
+    <a routerLink="/discovery" 
+       routerLinkActive="active"
+       class="nav-item">
+      <mat-icon>favorite</mat-icon>
+      <span>Descobrir</span>
+    </a>
+    
+    <a routerLink="/dashboard" 
+       routerLinkActive="active"
+       class="nav-item">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </a>
+    
+    <a routerLink="/messaging" 
+       routerLinkActive="active"
+       class="nav-item">
+      <mat-icon>chat</mat-icon>
+      <span>Mensagens</span>
+      <span class="message-badge" *ngIf="unreadMessages > 0">
+        {{ unreadMessages }}
+      </span>
+    </a>
+    
+    <a routerLink="/profile" 
+       routerLinkActive="active"
+       class="nav-item">
+      <mat-icon>person</mat-icon>
+      <span>Perfil</span>
+    </a>
+  </nav>
+  
+  <!-- Loading Overlay -->
+  <div class="loading-overlay glass" *ngIf="isLoading">
+    <div class="loading-content">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="loading-text">{{ loadingMessage || 'Carregando...' }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- User Menu -->
+<mat-menu #userMenu="matMenu" class="user-menu">
+  <button mat-menu-item routerLink="/profile">
+    <mat-icon>person</mat-icon>
+    <span>Meu Perfil</span>
+  </button>
+  
+  <button mat-menu-item routerLink="/settings">
+    <mat-icon>settings</mat-icon>
+    <span>Configurações</span>
+  </button>
+  
+  <mat-divider></mat-divider>
+  
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Sair</span>
+  </button>
+</mat-menu>
+
+<!-- Notification Menu -->
+<mat-menu #notificationMenu="matMenu" class="notification-menu">
+  <div class="notification-header">
+    <h3>Notificações</h3>
+    <button mat-button (click)="markAllAsRead()" *ngIf="notificationCount > 0">
+      Marcar como lidas
+    </button>
+  </div>
+  
+  <div class="notification-list" *ngIf="notifications.length > 0; else noNotifications">
+    <div class="notification-item" 
+         *ngFor="let notification of notifications.slice(0, 5)"
+         [class.unread]="!notification.read"
+         (click)="handleNotificationClick(notification)">
+      <div class="notification-icon">
+        <mat-icon [class]="notification.type">{{ notification.icon }}</mat-icon>
+      </div>
+      <div class="notification-content">
+        <p class="notification-title">{{ notification.title }}</p>
+        <p class="notification-message">{{ notification.message }}</p>
+        <span class="notification-time">{{ notification.createdAt | timeAgo }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #noNotifications>
+    <div class="no-notifications">
+      <mat-icon>notifications_none</mat-icon>
+      <p>Nenhuma notificação</p>
+    </div>
+  </ng-template>
+  
+  <mat-divider *ngIf="notifications.length > 0"></mat-divider>
+  
+  <button mat-menu-item routerLink="/notifications" *ngIf="notifications.length > 5">
+    <span>Ver todas as notificações</span>
+  </button>
+</mat-menu>
