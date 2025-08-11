@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- Suprimir verificações de números mágicos em testes -->
+    <suppress checks="MagicNumber" files=".*Test\.java"/>
+    
+    <!-- Suprimir verificações de design para extensão em DTOs -->
+    <suppress checks="DesignForExtension" files=".*DTO\.java"/>
+    
+    <!-- Suprimir verificações de visibilidade em entidades JPA -->
+    <suppress checks="VisibilityModifier" files=".*[/\\]model[/\\].*\.java"/>
+    
+    <!-- Suprimir verificações de parâmetros finais em controladores -->
+    <suppress checks="FinalParameters" files=".*Controller\.java"/>
+    
+    <!-- Suprimir verificações de TODO comments temporariamente -->
+    <suppress checks="TodoComment" files=".*"/>
+    
+    <!-- Suprimir verificações de campos ocultos para setters e construtores -->
+    <suppress checks="HiddenField" files=".*"/>
+</suppressions>

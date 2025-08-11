@@ -1,5 +1,7 @@
 plugins {
     id 'groovy'
+    id 'java'
+    id 'checkstyle'
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -41,4 +43,62 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// Configuração do Checkstyle
+checkstyle {
+    toolVersion = '10.12.4'
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    ignoreFailures = false
+    maxWarnings = 0
+    maxErrors = 0
+}
+
+checkstyleMain {
+    source = 'src/main/java'
+}
+
+checkstyleTest {
+    source = 'src/test/java'
+}
+
+// Task para executar checkstyle em todos os arquivos Java
+task checkstyleAll(type: Checkstyle) {
+    description = 'Run checkstyle on all Java source files'
+    group = 'verification'
+    classpath = files()
+    source = fileTree('src/main/java') + fileTree('src/test/java')
+    include '**/*.java'
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+// Task para gerar relatório de estilo de código
+task codeStyleReport {
+    dependsOn checkstyleMain, checkstyleTest
+    description = 'Generate comprehensive code style report'
+    group = 'verification'
+
+    doLast {
+        println "Code style reports generated:"
+        println "- Main: build/reports/checkstyle/main.html"
+        println "- Test: build/reports/checkstyle/test.html"
+    }
+}
+
+// Integrar checkstyle ao processo de build
+check.dependsOn checkstyleMain, checkstyleTest
+
+// Task para aplicar correções automáticas básicas (placeholder)
+task fixCodeStyle {
+    description = 'Apply basic automatic code style fixes'
+    group = 'formatting'
+
+    doLast {
+        println "Para correções automáticas, use sua IDE ou ferramentas como:"
+        println "- IntelliJ IDEA: Code -> Reformat Code"
+        println "- VS Code: Format Document"
+    }
 }
