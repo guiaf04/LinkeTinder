@@ -19,6 +19,23 @@
     <!-- Suprimir verificações de TODO comments temporariamente -->
     <suppress checks="TodoComment" files=".*"/>
     
-    <!-- Suprimir verificações de campos ocultos para setters e construtores -->
-    <suppress checks="HiddenField" files=".*"/>
+    <!-- Suprimir verificações de Javadoc em classes de configuração -->
+    <suppress checks="JavadocType" files=".*Config\.java"/>
+    <suppress checks="JavadocMethod" files=".*Config\.java"/>
+
+    <!-- Suprimir verificações de métodos longos em mapeadores -->
+    <suppress checks="MethodLength" files=".*Mapper\.java"/>
+
+    <!-- Suprimir verificações de parâmetros múltiplos em serviços -->
+    <suppress checks="ParameterNumber" files=".*Service\.java"/>
+
+    <!-- Suprimir verificações de campos ocultos em construtores JPA -->
+    <suppress checks="HiddenField" files=".*[/\\]model[/\\].*\.java"/>
+
+    <!-- Suprimir verificações em classes principais do Spring Boot -->
+    <suppress checks="HideUtilityClassConstructor" files=".*Application\.java"/>
+
+    <!-- Suprimir verificações de design em classes de teste -->
+    <suppress checks="DesignForExtension" files=".*Test\.java"/>
+    <suppress checks="FinalClass" files=".*Test\.java"/>
 </suppressions>

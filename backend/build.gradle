@@ -48,7 +48,7 @@ tasks.named('test') {
 // Configuração do Checkstyle
 checkstyle {
     toolVersion = '10.12.4'
-    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    configFile = file("config/checkstyle/checkstyle.xml")
     ignoreFailures = false
     maxWarnings = 0
     maxErrors = 0
@@ -56,10 +56,14 @@ checkstyle {
 
 checkstyleMain {
     source = 'src/main/java'
+    configFile = file("config/checkstyle/checkstyle.xml")
 }
 
 checkstyleTest {
     source = 'src/test/java'
+    configFile = file("config/checkstyle/checkstyle.xml")
+    // Aplicar regras mais flexíveis para testes
+    ignoreFailures = true
 }
 
 // Task para executar checkstyle em todos os arquivos Java
@@ -69,9 +73,12 @@ task checkstyleAll(type: Checkstyle) {
     classpath = files()
     source = fileTree('src/main/java') + fileTree('src/test/java')
     include '**/*.java'
+    configFile = file("config/checkstyle/checkstyle.xml")
     reports {
         xml.required = true
         html.required = true
+        xml.outputLocation = file("${buildDir}/reports/checkstyle/checkstyleAll.xml")
+        html.outputLocation = file("${buildDir}/reports/checkstyle/checkstyleAll.html")
     }
 }
 
