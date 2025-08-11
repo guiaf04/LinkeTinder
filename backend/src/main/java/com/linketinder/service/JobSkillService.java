@@ -58,7 +58,9 @@ public class JobSkillService {
 
             jobSkillRepository.findByJobAndSkill(job, skillValidate)
                     .ifPresentOrElse(
-                            js -> { throw new DuplicateEntity("Skill already added to this job"); },
+                            js -> {
+                                throw new DuplicateEntity("Skill already added to this job");
+                            },
                             () -> jobSkillRepository.save(jobSkill)
                     );
 

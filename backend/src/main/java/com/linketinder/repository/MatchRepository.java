@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MatchRepository extends JpaRepository<Match, Long> {
-  public abstract Optional<Match> findByCandidateIdAndJobId(Long candidateId, Long jobId);
+  Optional<Match> findByCandidateIdAndJobId(Long candidateId, Long jobId);
 
   @Query("""
 
@@ -18,7 +18,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     JOIN Match m ON c.id = m.candidate.id
     WHERE m.job.id IN :jobIds
 """)
-  public abstract List<Candidate> findAllCandidateByJobIdIn(@Param("jobIds") List<Long> jobIds);
+  List<Candidate> findAllCandidateByJobIdIn(@Param("jobIds") List<Long> jobIds);
 
   @Query("""
 
@@ -27,5 +27,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     AND m.job.idEmployee = :employeeId
     AND m.match = true
 """)
-  public abstract boolean existsByCandidateIdAndEmployeeId(@Param("candidateId") Long candidateId, @Param("employeeId") Long employeeId);
+  boolean existsByCandidateIdAndEmployeeId(
+          @Param("candidateId") Long candidateId, @Param("employeeId") Long employeeId
+  );
 }

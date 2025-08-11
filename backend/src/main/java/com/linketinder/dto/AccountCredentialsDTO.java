@@ -11,7 +11,7 @@ public class AccountCredentialsDTO implements Serializable {
     private String password;
     private String fullname;
 
-    public AccountCredentialsDTO() {}
+    public AccountCredentialsDTO() { }
 
     public AccountCredentialsDTO(String username, String password, String fullname) {
         this.username = username;
@@ -45,9 +45,13 @@ public class AccountCredentialsDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         AccountCredentialsDTO that = (AccountCredentialsDTO) o;
-        return Objects.equals(getUsername(), that.getUsername()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getFullname(), that.getFullname());
+        return Objects.equals(getUsername(), that.getUsername())
+            && Objects.equals(getPassword(), that.getPassword())
+            && Objects.equals(getFullname(), that.getFullname());
     }
 
     @Override

@@ -9,7 +9,7 @@ public class MatchDTO {
     private Long employeeId;
 
     // Constructors
-    public MatchDTO() {}
+    public MatchDTO() { }
 
     public MatchDTO(Long candidateId, Long jobId, Long employeeId) {
         this.candidateId = candidateId;
@@ -44,8 +44,12 @@ public class MatchDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         MatchDTO matchDTO = (MatchDTO) o;
         return Objects.equals(candidateId, matchDTO.candidateId) &&
                Objects.equals(jobId, matchDTO.jobId) &&

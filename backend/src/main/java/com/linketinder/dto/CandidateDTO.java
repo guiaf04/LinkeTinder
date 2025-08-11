@@ -1,8 +1,6 @@
 package com.linketinder.dto;
 
-import com.linketinder.model.Skill;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 public class CandidateDTO extends UnmatchedCandidateDTO {
@@ -17,9 +15,7 @@ public class CandidateDTO extends UnmatchedCandidateDTO {
         super();
     }
 
-    public CandidateDTO(Long id, String country, String cep, String personalDescription, List<Skill> skills,
-                       String firstName, String lastName, LocalDate birthday, String cpf) {
-        super(id, country, cep, personalDescription, skills);
+    public CandidateDTO(String firstName, String lastName, LocalDate birthday, String cpf) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -61,9 +57,15 @@ public class CandidateDTO extends UnmatchedCandidateDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         CandidateDTO that = (CandidateDTO) o;
         return Objects.equals(firstName, that.firstName) &&
                Objects.equals(lastName, that.lastName) &&

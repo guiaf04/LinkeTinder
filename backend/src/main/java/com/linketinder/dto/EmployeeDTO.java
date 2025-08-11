@@ -12,7 +12,7 @@ public class EmployeeDTO {
     private String description;
 
     // Constructors
-    public EmployeeDTO() {}
+    public EmployeeDTO() { }
 
     public EmployeeDTO(Long id, String name, String cnpj, String country, String cep, String description) {
         this.id = id;
@@ -74,8 +74,12 @@ public class EmployeeDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         EmployeeDTO that = (EmployeeDTO) o;
         return Objects.equals(id, that.id) &&
                Objects.equals(name, that.name) &&

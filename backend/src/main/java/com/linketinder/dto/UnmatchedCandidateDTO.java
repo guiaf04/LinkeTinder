@@ -13,7 +13,7 @@ public class UnmatchedCandidateDTO {
     private List<Skill> skills;
 
     // Constructors
-    public UnmatchedCandidateDTO() {}
+    public UnmatchedCandidateDTO() { }
 
     public UnmatchedCandidateDTO(Long id, String country, String cep, String personalDescription, List<Skill> skills) {
         this.id = id;
@@ -66,8 +66,12 @@ public class UnmatchedCandidateDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UnmatchedCandidateDTO that = (UnmatchedCandidateDTO) o;
         return Objects.equals(id, that.id) &&
                Objects.equals(country, that.country) &&

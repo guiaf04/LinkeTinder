@@ -24,7 +24,7 @@ import java.util.Map;
 @Service
 public class AuthService {
 
-    Logger logger = LoggerFactory.getLogger(AuthService.class);
+    private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -66,7 +66,9 @@ public class AuthService {
 
     public AccountCredentialsDTO create(AccountCredentialsDTO user) {
 
-        if (user == null) throw new RequiredObjectIsNullException("");
+        if (user == null) {
+            throw new RequiredObjectIsNullException("");
+        }
 
         logger.info("Creating one new User!");
         var entity = new User();

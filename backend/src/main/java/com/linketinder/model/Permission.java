@@ -1,6 +1,11 @@
 package com.linketinder.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serial;
@@ -44,7 +49,9 @@ public class Permission implements GrantedAuthority, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Permission that = (Permission) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getDescription(), that.getDescription());
     }

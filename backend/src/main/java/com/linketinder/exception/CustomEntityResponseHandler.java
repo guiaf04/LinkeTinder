@@ -25,7 +25,8 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(EntityNotFound.class)
-    public final ResponseEntity<ExceptionResponse> handleNotFoundEntityException(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleNotFoundEntityException(
+            Exception exception, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
                 exception.getMessage(),
@@ -35,7 +36,8 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(DuplicateEntity.class)
-    public final ResponseEntity<ExceptionResponse> handleDuplicateEntityException(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleDuplicateEntityException(
+            Exception exception, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
                 exception.getMessage(),
@@ -45,7 +47,8 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(UnauthorizedOperation.class)
-    public final ResponseEntity<ExceptionResponse> handleUnauthorizedOperationException(Exception exception, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleUnauthorizedOperationException(
+            Exception exception, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
                 exception.getMessage(),
@@ -55,7 +58,8 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(InvalidJwtAuthenticationException.class)
-    public final ResponseEntity<ExceptionResponse> handleInvalidJwtAuthenticationExceptions(Exception ex, WebRequest request) {
+    public final ResponseEntity<ExceptionResponse> handleInvalidJwtAuthenticationExceptions(
+            Exception ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
                 ex.getMessage(),

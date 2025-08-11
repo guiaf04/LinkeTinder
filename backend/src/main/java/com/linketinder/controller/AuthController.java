@@ -4,30 +4,40 @@ import com.linketinder.dto.AccountCredentialsDTO;
 import com.linketinder.dto.TokenDTO;
 import com.linketinder.service.AuthService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController  {
 
-    @Autowired
-    AuthService service;
+    private final AuthService service;
+
+    public AuthController(AuthService service) {
+        this.service = service;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody AccountCredentialsDTO credentials) {
-        if (credentialsIsInvalid(credentials))
+        if (credentialsIsInvalid(credentials)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+        }
 
-        var token = service.signIn(credentials);
+        ResponseEntity<TokenDTO> token = service.signIn(credentials);
 
-        if (token == null)
-            ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+        if (!token.hasBody()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+        }
 
-        return  ResponseEntity.ok().body(token);
+        return ResponseEntity.ok().body(token);
     }
 
     @PutMapping("/refresh/{username}")
@@ -35,13 +45,16 @@ public class AuthController  {
             @PathVariable("username") String username,
             @RequestHeader("Authorization") String refreshToken
     ) {
-        if (parametersAreInvalid(username, refreshToken))
+        if (parametersAreInvalid(username, refreshToken)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+        }
 
         ResponseEntity<TokenDTO> token = service.refreshToken(username, refreshToken);
 
-        if (token == null)
-            ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
+        }
+
         return  ResponseEntity.ok().body(token);
     }
 

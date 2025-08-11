@@ -1,6 +1,11 @@
 package com.linketinder.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -10,7 +15,17 @@ import java.time.LocalDate;
 public class Candidate implements Serializable {
   @Override
   public String toString() {
-    return "Candidato{" + "firstName='" + firstName + "'" + ", lastName='" + lastName + "'" + ", dataNascimento='" + birthday + "'" + ", email='" + email + "'" + ", cpf='" + cpf + "'" + ", country='" + country + "'" + ", cep='" + cep + "'" + ", descricaoPessoal='" + personalDescription + "'" + ", password='" + password + "'" + "}";
+    return "Candidato{"
+        + "firstName='" + firstName + "'"
+        + ", lastName='" + lastName + "'"
+        + ", dataNascimento='" + birthday + "'"
+        + ", email='" + email + "'"
+        + ", cpf='" + cpf + "'"
+        + ", country='" + country + "'"
+        + ", cep='" + cep + "'"
+        + ", descricaoPessoal='" + personalDescription + "'"
+        + ", password='" + password + "'"
+        + "}";
   }
 
   public Long getId() {

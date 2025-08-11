@@ -34,7 +34,7 @@ public class JwtTokenProvider {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    Algorithm algorithm = null;
+    private Algorithm algorithm = null;
 
     public JwtTokenProvider(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -56,7 +56,7 @@ public class JwtTokenProvider {
 
     public TokenDTO refreshToken(String refreshToken) {
         var token = "";
-        if(refreshTokenContainsBearer(refreshToken)) {
+        if (refreshTokenContainsBearer(refreshToken)) {
             token = refreshToken.substring("Bearer ".length());
         }
 
@@ -106,7 +106,9 @@ public class JwtTokenProvider {
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
-        if(refreshTokenContainsBearer(bearerToken)) return bearerToken.substring("Bearer ".length());
+        if (refreshTokenContainsBearer(bearerToken)) {
+            return bearerToken.substring("Bearer ".length());
+        }
         return null;
     }
 
@@ -114,10 +116,10 @@ public class JwtTokenProvider {
         return StringUtils.isNotBlank(refreshToken) && refreshToken.startsWith("Bearer ");
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
         DecodedJWT decodedJWT = decodedToken(token);
         try {
-          return !decodedJWT.getExpiresAt().before(new Date());
+            return !decodedJWT.getExpiresAt().before(new Date());
         } catch (Exception e) {
             throw new InvalidJwtAuthenticationException("Expired or Invalid JWT Token!");
         }

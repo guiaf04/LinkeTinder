@@ -33,7 +33,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
 
         PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder(
                 "", 8, 185000,
@@ -75,7 +75,7 @@ public class SecurityConfig {
                     .requestMatchers("/**").authenticated()
                     .requestMatchers("/users").denyAll()
                 )
-                .cors(cors -> {})
+                .cors(cors -> { })
             .build();
         //@formatter:on
     }

@@ -1,10 +1,17 @@
 package com.linketinder.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "empresa")
-public class Employee {
+public class Employee implements Serializable {
   public Long getId() {
     return id;
   }

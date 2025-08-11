@@ -58,7 +58,9 @@ public class CandidateSkillService {
 
             candidateSkillRepository.findByCandidateAndSkill(candidate, skillValidate)
                     .ifPresentOrElse(
-                            cs -> { throw new DuplicateEntity("Skill already added to this candidate"); },
+                            cs -> {
+                                throw new DuplicateEntity("Skill already added to this candidate");
+                            },
                             () -> candidateSkillRepository.save(candidateSkill)
                     );
 

@@ -1,6 +1,15 @@
 package com.linketinder.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -45,14 +54,14 @@ public class User implements UserDetails, Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_permission",
-        joinColumns = {@JoinColumn (name = "id_user")},
-        inverseJoinColumns = {@JoinColumn (name = "id_permission")}
+            joinColumns = {@JoinColumn (name = "id_user")},
+            inverseJoinColumns = {@JoinColumn (name = "id_permission")}
     )
     private List<Permission> permissions;
 
-    public User() {}
+    public User() { }
 
-    public List<String> getRoles(){
+    public List<String> getRoles() {
         List<String> roles = new ArrayList<>();
         for (Permission permission : permissions) {
             roles.add(permission.getDescription());
@@ -161,13 +170,25 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getFullName(), user.getFullName()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(isAccountNonExpired(), user.isAccountNonExpired()) && Objects.equals(isAccountNonLocked(), user.isAccountNonLocked()) && Objects.equals(isCredentialsNonExpired(), user.isCredentialsNonExpired()) && Objects.equals(isEnabled(), user.isEnabled()) && Objects.equals(getPermissions(), user.getPermissions());
+        return Objects.equals(getId(), user.getId())
+                && Objects.equals(getUsername(), user.getUsername())
+                && Objects.equals(getFullName(), user.getFullName())
+                && Objects.equals(getPassword(), user.getPassword())
+                && Objects.equals(isAccountNonExpired(), user.isAccountNonExpired())
+                && Objects.equals(isAccountNonLocked(), user.isAccountNonLocked())
+                && Objects.equals(isCredentialsNonExpired(), user.isCredentialsNonExpired())
+                && Objects.equals(isEnabled(), user.isEnabled())
+                && Objects.equals(getPermissions(), user.getPermissions());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getFullName(), getPassword(), isAccountNonExpired(), isAccountNonLocked(), isCredentialsNonExpired(), isEnabled(), getPermissions());
+        return Objects.hash(getId(), getUsername(), getFullName(), getPassword(),
+                isAccountNonExpired(), isAccountNonLocked(),
+                isCredentialsNonExpired(), isEnabled(), getPermissions());
     }
 }

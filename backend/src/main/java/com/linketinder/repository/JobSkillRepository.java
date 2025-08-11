@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JobSkillRepository extends JpaRepository<JobSkill, Long> {
-  public abstract Optional<Job> findByJob(Job job);
+  Optional<Job> findByJob(Job job);
 
-  public abstract List<JobSkill> findByJobId(Long jobId);
+  List<JobSkill> findByJobId(Long jobId);
 
-  public abstract List<Skill> findAllSkillByJobId(Long jobId);
+  List<Skill> findAllSkillByJobId(Long jobId);
 
-  public abstract Optional<JobSkill> findByJobAndSkill(Job job, Skill skill);
+  Optional<JobSkill> findByJobAndSkill(Job job, Skill skill);
 }
